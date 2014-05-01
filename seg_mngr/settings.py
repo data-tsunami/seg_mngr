@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 """
 Django settings for seg_mngr project.
 
@@ -12,22 +15,16 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+from django.contrib import messages
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'hv-njtin-m2q8(*xddu3h69vdf)+1a)-^1%*kk=so^k^hc%%7_'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -36,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'seg_mngr',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,3 +78,35 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Bootstrap friendly
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+SECRET_KEY = None
+
+#==============================================================================
+# Settings que debería haber seteados en `seg_mngr_settings_local`
+#==============================================================================
+# DEBUG = True
+# TEMPLATE_DEBUG = True
+# SECRET_KEY = "random-string"
+#==============================================================================
+
+try:
+    from seg_mngr_settings_local import *
+except ImportError as e:
+    print("# ")
+    print("# ERROR")
+    print("# ")
+    print("#   No se pudo importar el modulo")
+    print("#       `seg_mngr_settings_local`")
+    print("# ")
+    raise Exception("No se pudo importar seg_mngr_settings_local")
+
+assert SECRET_KEY is not None, "Falta setear SECRET_KEY"
