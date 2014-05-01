@@ -1,16 +1,17 @@
-seg_mngr
-========
+SegManager
+==========
 
-Soporte de proceso de seguridad IT
+Soporte de procesos de seguridad IT
+
 
 * Jira: [https://data-tsunami.atlassian.net/secure/RapidBoard.jspa?rapidView=4](https://data-tsunami.atlassian.net/secure/RapidBoard.jspa?rapidView=4 "Repositorio Jira")
 
 
-Requerimiento
--------------
+Requerimientos
+--------------
 
-* Python 2.6
-* virtualenv
+* Python 2.6 (para deployar en CentOS!)
+* virtualenv (o similar)
 
 Setup del ambiente de desarrollo
 ------------------------------
@@ -23,8 +24,8 @@ Setup del ambiente de desarrollo
 
 Otras configuraciones:
 
-* encoding de archivos: UTF-8
-* New lin: Unix
+* encoding de archivos: `UTF-8`
+* New lin: `Unix`
 
 TODO
 ----
