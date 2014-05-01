@@ -12,7 +12,7 @@ Requerimientos
 Setup del ambiente de desarrollo
 ------------------------------
 
-* Clonar repo `git clone git@github.com:data-tsunami/seg-mngr.git`
+* Clonar repo `git clone git@github.com:data-tsunami/seg_mngr.git`
 * Activar virtualenv `. virtualenv/bin/activate`
 * Instalar dependencias `pip install -r requirements.txt`
 * Setup BD `python manager syncdb` & `python manager migrate`
