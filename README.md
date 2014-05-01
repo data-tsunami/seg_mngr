@@ -3,7 +3,10 @@ seg_mngr
 
 Soporte de proceso de seguridad IT
 
-Requerimientos
+* Jira: [https://data-tsunami.atlassian.net/secure/RapidBoard.jspa?rapidView=4](https://data-tsunami.atlassian.net/secure/RapidBoard.jspa?rapidView=4 "Repositorio Jira")
+
+
+Requerimiento
 -------------
 
 * Python 2.6
