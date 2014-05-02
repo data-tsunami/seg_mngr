@@ -19,8 +19,12 @@ Setup del ambiente de desarrollo
 * Clonar repo `git clone git@github.com:data-tsunami/seg_mngr.git`
 * Activar virtualenv `. virtualenv/bin/activate`
 * Instalar dependencias `pip install -r requirements.txt`
-* Crear settings local `touch seg_mngr_settings_local.py`
-* Setup BD `python manager syncdb` & `python manager migrate`
+* Crear settings local `touch seg_mngr_settings_local.py`, y agregare al menos:
+    - `DEBUG = True`
+    - `TEMPLATE_DEBUG = True`
+    - `SECRET_KEY = 'algun-string-random'`
+* Setup BD `python manager.py syncdb`
+* Corer migraciones `python manager migrate`
 
 Otras configuraciones:
 
