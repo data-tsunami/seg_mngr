@@ -23,8 +23,8 @@ Setup del ambiente de desarrollo
     - `DEBUG = True`
     - `TEMPLATE_DEBUG = True`
     - `SECRET_KEY = 'algun-string-random'`
-* Setup BD `python manager.py syncdb`
-* Corer migraciones `python manager migrate`
+* Setup BD `python manage.py syncdb`
+* Correr migraciones `python manage.py migrate`
 
 Otras configuraciones:
 
