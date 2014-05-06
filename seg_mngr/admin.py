@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from seg_mngr import models
+from seg_mngr.models import ConfigIp, Server 
 from django.contrib import admin
+#from django.db import models
 
-admin.site.register(models.ConfigIp)
-admin.site.register(models.Server)
+class ConfigIpInLine(admin.StackedInline):
+    model = ConfigIp
+    extra = 1
+
+class ServerAdmin(admin.ModelAdmin):
+    inlines =[ConfigIpInLine,]    
+
+
+admin.site.register(ConfigIp)
+admin.site.register(Server, ServerAdmin)
