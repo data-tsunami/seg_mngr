@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from seg_mngr.models import ConfigIp, Server 
+from seg_mngr.models import ConfigIp, Server, Task 
 from django.contrib import admin
 #from django.db import models
 
@@ -14,3 +14,4 @@ class ServerAdmin(admin.ModelAdmin):
 
 admin.site.register(ConfigIp)
 admin.site.register(Server, ServerAdmin)
+admin.site.register(Task)
