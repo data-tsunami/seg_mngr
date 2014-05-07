@@ -23,6 +23,16 @@ class ConfigIp(models.Model):
     def __unicode__(self):
         return self.ip_address
 
+class Task(models.Model):
+    """
+    Tareas de los servidores
+    """
+    name = models.CharField(max_length=64)
+    description = models.TextField(verbose_name='Descripción')
+
+    def __unicode__(self):
+        return self.name  
+
 
 
 
