@@ -1,0 +1,36 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+<br>
+
+ <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th><a href="">Servidor de Email</a></th>
+          <th><a href="">Servidor Web</a></th>
+          <th><a href="">Servidor Base de Datos</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td >Configurar ssh</td>
+          <td><span class="label label-success">OK</span></td>
+          <td><span class="label label-success">OK</span></td>
+          <td><span class="label label-danger">Falta</span></td>
+        </tr>        
+        <tr>
+          <td>Relizar Backup</td>
+          <td><span class="label label-danger">Falta</span></td>
+          <td><span class="label label-success">OK</span></td>
+          <td><span class="label label-danger">Falta</span></td>
+        </tr>
+        <tr>
+          <td>Monitorear procesos y memoria</td>
+          <td><span class="label label-danger">Falta</span></td>
+          <td><span class="label label-success">OK</span></td>
+          <td><span class="label label-success">OK</span></td>
+        </tr>
+      </tbody>
+    </table>
+{% endblock %}
