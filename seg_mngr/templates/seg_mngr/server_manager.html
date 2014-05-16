@@ -9,7 +9,7 @@
           <th>#</th>
           {% if servers %}
           {% for servidor in servers %}
-          <th><a href="">Servidor {{servidor.name}}</a></th>
+          <th><a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a></th>
           {% endfor %}       
           {% endif %}
         </tr>

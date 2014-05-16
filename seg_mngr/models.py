@@ -19,7 +19,7 @@ class Server(models.Model):
     name = models.CharField(max_length=64)    
     operating_system = models.CharField(max_length=64)
     location = models.CharField(max_length=64)
-    task = models.ManyToManyField(Task, through='ServerTask', blank=True)    
+    task = models.ManyToManyField(Task, through='ServerTask', blank=True)   
 
     def __unicode__(self):
         return self.name
@@ -38,9 +38,19 @@ class ServerTask(models.Model):
     """
     Estado de la tarea por servidor
     """
+    Pendiente = 'P'
+    No_Aplica ='NA'
+    En_Curso ='EC'
+    Finalizada ='F'
+    STATE_CHOICES = (
+        (Pendiente, 'Pendiente'),
+        (No_Aplica, 'No aplica'),
+        (En_Curso, 'En curso'),
+        (Finalizada, 'Finalizada'),
+        )
     server = models.ForeignKey(Server)
     task = models.ForeignKey(Task)
-    state = models.CharField(max_length = 64)
+    state = models.CharField(max_length = 64, choices=STATE_CHOICES, default=Pendiente)
 
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name, self.task.name)

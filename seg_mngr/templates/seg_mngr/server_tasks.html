@@ -1,0 +1,36 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+<h2>Servidor {{servidor.name}}</h2>
+<h5>Sistema Operativo: {{servidor.operating_system}}</h5>
+<h5>Ubicación: {{servidor.location}}</h5>
+<br>
+<h3>Tareas del servidor</h3>
+  	 
+<table class="table">
+	<thead>
+		<tr>
+			<th>Tareas</th>
+			<th>Estado</th>
+		</tr>
+	</thead>
+	<tbody>
+  		<form  action='.' method='POST' enctype="multipart/form-data">
+			{% csrf_token %}
+		{% for k,v in tareas.items %}
+		<tr>
+			<td>{{k.name}}</td>
+			<td>{{v}}</td>
+			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-EC" value="En curso" class="btn btn-mini "></td>
+			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-NA" value="No aplica" class="btn btn-mini "></td>
+			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-P" value="Pendiente" class="btn btn-mini "></td>
+			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-F" value="Finalizada" class="btn btn-mini "></td>			
+		</tr>
+		{% endfor%}
+		</form>
+	</tbody>
+</table>
+<a class="btn btn-primary"  href="/server_manager/">Volver</a>
+
+
+{% endblock %}
