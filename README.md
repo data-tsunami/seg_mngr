@@ -25,6 +25,8 @@ Setup del ambiente de desarrollo
     - `SECRET_KEY = 'algun-string-random'`
 * Setup BD `python manage.py syncdb`
 * Correr migraciones `python manage.py migrate`
+* Setup de pre-commit hooks
+    - `ln -sv /PATH/TO/REPO/seg_mngr/scripts/pre-commit .git/hooks`
 
 Otras configuraciones:
 
