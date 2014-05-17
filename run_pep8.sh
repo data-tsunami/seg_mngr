@@ -11,4 +11,4 @@ cd $(dirname $0)
 
 pep8 --ignore=$IGNORE seg_mngr/*.py
 
-echo $?
+exit $?
