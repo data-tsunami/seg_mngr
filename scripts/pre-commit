@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Chequeando pep8..."
+./run_pep8.sh
+EXIT=$?
+
+if [ $EXIT -ne 0 ] ; then
+	echo ""
+	echo "ERROR: los fuentes no respetan pep8. Commit cancelado."
+fi
+
+exit $EXIT
