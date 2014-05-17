@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 """
 Django settings for seg_mngr project.
 
@@ -10,12 +8,17 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+from __future__ import unicode_literals
+
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 from django.contrib import messages
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -91,13 +94,13 @@ MESSAGE_TAGS = {
 
 SECRET_KEY = None
 
-#==============================================================================
+# =============================================================================
 # Settings que debería haber seteados en `seg_mngr_settings_local`
-#==============================================================================
+# =============================================================================
 # DEBUG = True
 # TEMPLATE_DEBUG = True
 # SECRET_KEY = "random-string"
-#==============================================================================
+# =============================================================================
 
 try:
     from seg_mngr_settings_local import *
