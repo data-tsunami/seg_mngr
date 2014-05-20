@@ -24,13 +24,23 @@ class OperatingSystem(models.Model):
         return self.name
 
 
+class Location(models.Model):
+    """
+    Ubicación de un servidor
+    """
+    name = models.CharField(max_length=64)
+    
+    def __unicode__(self):
+        return self.name
+
+
 class Server(models.Model):
     """
     Clase sevidor
     """
     name = models.CharField(max_length=64)
     operating_system = models.ForeignKey(OperatingSystem)    
-    location = models.CharField(max_length=64)
+    location = models.ForeignKey(Location)
     task = models.ManyToManyField(Task, through='ServerTask', blank=True)
 
     def __unicode__(self):
