@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from seg_mngr.models import ConfigIp, Server, Task
+from seg_mngr.models import ConfigIp, Server, Task, OperatingSystem
 
 
 # from django.db import models
@@ -17,3 +17,4 @@ class ServerAdmin(admin.ModelAdmin):
 admin.site.register(ConfigIp)
 admin.site.register(Server, ServerAdmin)
 admin.site.register(Task)
+admin.site.register(OperatingSystem)
