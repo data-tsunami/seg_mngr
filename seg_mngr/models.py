@@ -14,12 +14,22 @@ class Task(models.Model):
         return self.name
 
 
+class OperatingSystem(models.Model):
+    """
+    Clase Sistema Operativo
+    """
+    name = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Server(models.Model):
     """
     Clase sevidor
     """
     name = models.CharField(max_length=64)
-    operating_system = models.CharField(max_length=64)
+    operating_system = models.ForeignKey(OperatingSystem)    
     location = models.CharField(max_length=64)
     task = models.ManyToManyField(Task, through='ServerTask', blank=True)
 
