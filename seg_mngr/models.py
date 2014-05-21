@@ -19,6 +19,7 @@ class Task(models.Model):
     """
     name = models.CharField(max_length=64)
     description = models.TextField(verbose_name='Descripción')
+    task_group = models.ForeignKey(TaskGroup)
 
     def __unicode__(self):
         return self.name
