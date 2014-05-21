@@ -18,6 +18,11 @@
   		<form  action='.' method='POST' enctype="multipart/form-data">
 			{% csrf_token %}
 		{% for k,v in tareas.items %}
+		{% ifchanged %}
+        <tr>
+        <td colspan=6><p class="text-center"><strong>Grupo  </strong>{{k.task_group}} </p></td>
+        </tr>        
+        {% endifchanged %}
 		<tr>
 			<td>{{k.name}}</td>
 			<td>{{v}}</td>

@@ -17,6 +17,11 @@
       <tbody>
         {% if tasks %}
         {% for tareas in tasks %}
+        {% ifchanged %}
+        <tr>
+        <td colspan=3><p class="text-center"><strong>Grupo  </strong>{{tareas.task_group}} </p></td>
+        </tr>        
+        {% endifchanged %}
         <tr>
           <td >{{tareas.name}}</td>
           {% for servidor in servers %}
