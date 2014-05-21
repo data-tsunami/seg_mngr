@@ -49,10 +49,20 @@ class Server(models.Model):
     """
     Clase sevidor
     """
+    PUBLICO = 1
+    NAT = 2
+    LAN = 3
+    NIVEL_CHOICES = (
+                     (PUBLICO,"Público"),
+                     (NAT,"NAT"),
+                     (LAN,"LAN"),
+                     )
     name = models.CharField(max_length=64)
     operating_system = models.ForeignKey(OperatingSystem)    
     location = models.ForeignKey(Location)
     task = models.ManyToManyField(Task, through='ServerTask', blank=True)
+    nivel_exposicion = models.IntegerField(max_length=2, choices=NIVEL_CHOICES, 
+                                           default=LAN)
 
     def __unicode__(self):
         return self.name
@@ -73,20 +83,20 @@ class ServerTask(models.Model):
     """
     Estado de la tarea por servidor
     """
-    Pendiente = 'P'
-    No_Aplica = 'NA'
-    En_Curso = 'EC'
-    Finalizada = 'F'
+    PENDIENTE = 'P'
+    NO_APLICA = 'NA'
+    EN_CURSO = 'EC'
+    FINALIZADA = 'F'
     STATE_CHOICES = (
-        (Pendiente, 'Pendiente'),
-        (No_Aplica, 'No aplica'),
-        (En_Curso, 'En curso'),
-        (Finalizada, 'Finalizada'),
+        (PENDIENTE, 'Pendiente'),
+        (NO_APLICA, 'No aplica'),
+        (EN_CURSO, 'En curso'),
+        (FINALIZADA, 'Finalizada'),
     )
     server = models.ForeignKey(Server)
     task = models.ForeignKey(Task)
     state = models.CharField(max_length=64, choices=STATE_CHOICES,
-        default=Pendiente)
+        default=PENDIENTE)
 
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name,
