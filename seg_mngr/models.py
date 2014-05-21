@@ -3,6 +3,16 @@
 from django.db import models
 
 
+class TaskGroup(models.Model):
+    """
+    Grupo de Tareas
+    """
+    name = models.CharField(max_length=64)
+    
+    def __unicode__(self):
+        return self.name
+
+
 class Task(models.Model):
     """
     Tareas de los servidores
