@@ -29,7 +29,7 @@ class OperatingSystem(models.Model):
     """
     Clase Sistema Operativo
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, verbose_name='Operating system')
 
     def __unicode__(self):
         return self.name
@@ -39,7 +39,7 @@ class Location(models.Model):
     """
     Ubicación de un servidor
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, verbose_name='Location')
     
     def __unicode__(self):
         return self.name

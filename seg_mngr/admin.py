@@ -12,6 +12,7 @@ class ConfigIpInLine(admin.StackedInline):
 
 class ServerAdmin(admin.ModelAdmin):
     inlines = [ConfigIpInLine, ]
+    list_filter = ('operating_system__name','location__name',)
 
 
 admin.site.register(ConfigIp)
