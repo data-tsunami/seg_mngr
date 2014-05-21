@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from seg_mngr.models import ConfigIp, Server, Task, OperatingSystem, Location
+from seg_mngr.models import ConfigIp, Server, Task, OperatingSystem, Location, TaskGroup
 
 
 # from django.db import models
@@ -19,3 +19,4 @@ admin.site.register(Server, ServerAdmin)
 admin.site.register(Task)
 admin.site.register(OperatingSystem)
 admin.site.register(Location)
+admin.site.register(TaskGroup)
