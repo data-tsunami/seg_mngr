@@ -20,14 +20,15 @@ def server_manager(request):
             except ServerTask.DoesNotExist:
                 estado = None
             if estado is not None:
-                if estado.state == ServerTask.PENDIENTE:
-                    matriz[(tareas.id, servidor.id)] = 'Pendiente'
-                if estado.state == ServerTask.NO_APLICA:
-                    matriz[(tareas.id, servidor.id)] = 'No aplica'
-                if estado.state == ServerTask.EN_CURSO:
-                    matriz[(tareas.id, servidor.id)] = 'En curso'
-                if estado.state == ServerTask.FINALIZADA:
-                    matriz[(tareas.id, servidor.id)] = 'Finalizada'
+                matriz[(tareas.id, servidor.id)] = estado.state
+#                 if estado.state == ServerTask.PENDIENTE:
+#                     matriz[(tareas.id, servidor.id)] = 'Pendiente'
+#                 if estado.state == ServerTask.NO_APLICA:
+#                     matriz[(tareas.id, servidor.id)] = 'No aplica'
+#                 if estado.state == ServerTask.EN_CURSO:
+#                     matriz[(tareas.id, servidor.id)] = 'En curso'
+#                 if estado.state == ServerTask.FINALIZADA:
+#                     matriz[(tareas.id, servidor.id)] = 'Finalizada'
             else:
                 matriz[(tareas.id, servidor.id)] = 'Pendiente'
     contexto = {
@@ -41,10 +42,11 @@ def server_manager(request):
 
 
 # vista del servidor muestra los estados de las tareas de un servidor
+# Actualiza el estado de la tarea
 # template: seg_mngr/server_task.html
 def server_tasks(request, id_servidor):
     servidor = Server.objects.get(pk=id_servidor)
-    if request.method == 'POST':
+    if request.method == 'POST': # recuperar los datos de los submmit
         update_task = [k for k in request.POST.keys()
             if k.startswith(id_servidor + '-')]
         task_id = update_task[0].split('-')[1]
@@ -54,10 +56,10 @@ def server_tasks(request, id_servidor):
             server_task = ServerTask.objects.get(task=tarea, server=servidor)
         except ServerTask.DoesNotExist:
             server_task = None
-        if server_task is not None:
+        if server_task is not None: #actualiza state en servertask
             ServerTask.objects.filter(task=tarea, server=servidor).update(
                 state=update_state)
-        else:
+        else: # si no tiene un serverTask lo crea
             server_task = ServerTask(task=tarea, server=servidor,
                 state=update_state)
             server_task.save()
@@ -68,16 +70,17 @@ def server_tasks(request, id_servidor):
         except ServerTask.DoesNotExist:
             estado = None
         if estado is not None:
-            if estado.state == ServerTask.PENDIENTE:
-                matriz[tareas] = 'Pendiente'
-            if estado.state == ServerTask.NO_APLICA:
-                matriz[tareas] = 'No aplica'
-            if estado.state == ServerTask.EN_CURSO:
-                matriz[tareas] = 'En curso'
-            if estado.state == ServerTask.FINALIZADA:
-                matriz[tareas] = 'Finalizada'
+            matriz[tareas] = (estado.state,estado.comments,estado.id)
+#             if estado.state == ServerTask.PENDIENTE:
+#                 matriz[tareas] = 'Pendiente'
+#             if estado.state == ServerTask.NO_APLICA:
+#                 matriz[tareas] = 'No aplica'
+#             if estado.state == ServerTask.EN_CURSO:
+#                 matriz[tareas] = 'En curso'
+#             if estado.state == ServerTask.FINALIZADA:
+#                 matriz[tareas] = 'Finalizada'
         else:
-            matriz[tareas] = 'Pendiente'
+            matriz[tareas] = ('P','No hay comentarios',0)
     contexto = {
         'servidor': Server.objects.get(pk=id_servidor),
         'tareas': matriz,

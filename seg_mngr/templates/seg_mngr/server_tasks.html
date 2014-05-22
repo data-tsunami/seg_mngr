@@ -25,7 +25,10 @@
         {% endifchanged %}
 		<tr>
 			<td>{{k.name}}</td>
-			<td>{{v}}</td>
+			<td>{{v.0}}</td>
+			{% if v.2 != 0%}
+			<td>{{v.1}} <a href="/admin/seg_mngr/servertaskcomment/{{v.2}}/" name="update-serverTask-{{servidor.id}}-{{k.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>			
+			{%endif%}
 			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-EC" value="En curso" class="btn btn-mini "></td>
 			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-NA" value="No aplica" class="btn btn-mini "></td>
 			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-P" value="Pendiente" class="btn btn-mini "></td>
