@@ -21,16 +21,8 @@ def server_manager(request):
                 estado = None
             if estado is not None:
                 matriz[(tareas.id, servidor.id)] = estado.state
-#                 if estado.state == ServerTask.PENDIENTE:
-#                     matriz[(tareas.id, servidor.id)] = 'Pendiente'
-#                 if estado.state == ServerTask.NO_APLICA:
-#                     matriz[(tareas.id, servidor.id)] = 'No aplica'
-#                 if estado.state == ServerTask.EN_CURSO:
-#                     matriz[(tareas.id, servidor.id)] = 'En curso'
-#                 if estado.state == ServerTask.FINALIZADA:
-#                     matriz[(tareas.id, servidor.id)] = 'Finalizada'
             else:
-                matriz[(tareas.id, servidor.id)] = 'Pendiente'
+                matriz[(tareas.id, servidor.id)] = 'P'
     contexto = {
         'servers': Server.objects.all(),
         'tasks': Task.objects.all(),
@@ -71,14 +63,6 @@ def server_tasks(request, id_servidor):
             estado = None
         if estado is not None:
             matriz[tareas] = (estado.state,estado.comments,estado.id)
-#             if estado.state == ServerTask.PENDIENTE:
-#                 matriz[tareas] = 'Pendiente'
-#             if estado.state == ServerTask.NO_APLICA:
-#                 matriz[tareas] = 'No aplica'
-#             if estado.state == ServerTask.EN_CURSO:
-#                 matriz[tareas] = 'En curso'
-#             if estado.state == ServerTask.FINALIZADA:
-#                 matriz[tareas] = 'Finalizada'
         else:
             matriz[tareas] = ('P','No hay comentarios',0)
     contexto = {

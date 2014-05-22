@@ -20,19 +20,32 @@
 		{% for k,v in tareas.items %}
 		{% ifchanged %}
         <tr>
-        <td colspan=6><p class="text-center"><strong>Grupo  </strong>{{k.task_group}} </p></td>
+        <td colspan=7><p class="text-center"><strong>Grupo  </strong>{{k.task_group}} </p></td>
         </tr>        
         {% endifchanged %}
 		<tr>
 			<td>{{k.name}}</td>
-			<td>{{v.0}}</td>
-			{% if v.2 != 0%}
-			<td>{{v.1}} <a href="/admin/seg_mngr/servertaskcomment/{{v.2}}/" name="update-serverTask-{{servidor.id}}-{{k.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>			
+			{% if v.0 == 'P'  %}
+          	<td><span class="label label-danger">Pendiente</span></td>
+          	{% endif%}
+          	{% if v.0 == 'NA'  %}
+          	<td><span class="label label-default">No aplica</span></td>
+          	{% endif%}
+          	{% if v.0 == 'EC'  %}
+          	<td><span class="label label-primary">En curso</span></td>
+          	{% endif%} 
+          	{% if v.0 == 'F'  %}
+          	<td><span class="label label-success">Finalizada</span></td>
+          	{% endif%}
+			{% if v.2 != 0 and v.1 != 'None' %}
+			<td>{{v.1}} <a href="/admin/seg_mngr/servertaskcomment/{{v.2}}/" name="update-serverTask-{{servidor.id}}-{{k.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>
+			{% else %}
+			<td>No hay comentarios</td>			
 			{%endif%}
-			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-EC" value="En curso" class="btn btn-mini "></td>
-			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-NA" value="No aplica" class="btn btn-mini "></td>
-			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-P" value="Pendiente" class="btn btn-mini "></td>
-			<td><input type="submit" name="{{servidor.id}}-{{k.id}}-F" value="Finalizada" class="btn btn-mini "></td>			
+			<td><button type="submit" name="{{servidor.id}}-{{k.id}}-EC" value="En curso" class="btn btn-mini "><span class="glyphicon glyphicon-time"></span> En curso</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{k.id}}-NA" value="No aplica" class="btn btn-mini "><span class="glyphicon glyphicon-remove"></span> No Aplica</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{k.id}}-P" value="Pendiente" class="btn btn-mini "><span class="glyphicon glyphicon-play-circle"></span> Pendiente</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{k.id}}-F" value="Finalizada" class="btn btn-mini "><span class="glyphicon glyphicon-ok"></span> Finalizada</button></td>			
 		</tr>
 		{% endfor%}
 		</form>
