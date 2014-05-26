@@ -4,7 +4,7 @@
 </br>
 <form action='.' method='post' enctype="multipart/form-data">
         {% csrf_token %}
-        <table class="table">
+        <table class="table table-bordered">
         <tr><td>Server  </td><td><strong>{{ object.server.name}}</string></td></tr>
         <tr><td>Task    </td><td><strong>{{ object.task.name}}</string></td></tr>
           {% if object.state == 'P'  %}
@@ -18,11 +18,10 @@
           {% endif%} 
           {% if object.state == 'F'  %}
           <tr><td>State   </td><td><span class="label label-success">Finalizada</span></td></tr>
-          {% endif%}        
+          {% endif%}
+           {{form.as_table}}        
         </table>
-        </br>
-        {{form.as_table}}
-        </br>
-        <input type="submit" value="Update" /> 
+        
+        <input type="submit" value="Update" class="btn btn-primary" /> 
 </form> 
 {% endblock %}
