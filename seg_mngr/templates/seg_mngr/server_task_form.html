@@ -1,0 +1,28 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+</br>
+<form action='.' method='post' enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table">
+        <tr><td>Server  </td><td><strong>{{ object.server.name}}</string></td></tr>
+        <tr><td>Task    </td><td><strong>{{ object.task.name}}</string></td></tr>
+          {% if object.state == 'P'  %}
+          <tr><td>State   </td><td><span class="label label-danger">Pendiente</span></td></tr>
+          {% endif%}
+          {% if object.state == 'NA'  %}
+          <tr><td>State   </td><td><span class="label label-default">No aplica</span></td></tr>
+          {% endif%}
+          {% if object.state == 'EC'  %}
+          <tr><td>State   </td><td><span class="label label-primary">En curso</span></td></tr>
+          {% endif%} 
+          {% if object.state == 'F'  %}
+          <tr><td>State   </td><td><span class="label label-success">Finalizada</span></td></tr>
+          {% endif%}        
+        </table>
+        </br>
+        {{form.as_table}}
+        </br>
+        <input type="submit" value="Update" /> 
+</form> 
+{% endblock %}

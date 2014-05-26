@@ -1,7 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404 
 from django.template.context import RequestContext
 from seg_mngr.models import Server, Task, ServerTask
+from seg_mngr.forms import ServerTaskForm
+from django.views.generic.edit import UpdateView
+from django.core.urlresolvers import reverse
 
 
 def home(request):
@@ -72,3 +75,31 @@ def server_tasks(request, id_servidor):
     return render_to_response(
         "seg_mngr/server_tasks.html", contexto,
         context_instance=RequestContext(request))
+
+
+def update_server_task(request,id_serverTask):
+#     if request.method == 'POST':
+    instance = get_object_or_404(ServerTask, id=id_serverTask)    
+    form = ServerTaskForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        print 'ta todo bien'
+    else:
+        print 'nada anda bien'
+#     else:
+#         form = ServerTaskForm()
+    return render_to_response(
+        "seg_mngr/server_task_form.html",form,
+        context_instance=RequestContext(request))
+
+class ServerTaskUpdateView(UpdateView):
+    model = ServerTask
+    template_name = 'seg_mngr/server_task_form.html'
+    form_class = ServerTaskForm
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.        
+        return super(ServerTaskUpdateView, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('server_tasks', args=[self.object.server.pk])                            

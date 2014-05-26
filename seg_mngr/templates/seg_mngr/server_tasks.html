@@ -38,7 +38,7 @@
           	<td><span class="label label-success">Finalizada</span></td>
           	{% endif%}
 			{% if v.2 != 0 and v.1 != 'None' %}
-			<td>{{v.1}} <a href="/admin/seg_mngr/servertaskcomment/{{v.2}}/" name="update-serverTask-{{servidor.id}}-{{k.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>
+			<td>{{v.1}} <a href="/server_task_form/{{v.2}}/" name="update-serverTask-{{servidor.id}}-{{k.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>
 			{% else %}
 			<td>No hay comentarios</td>			
 			{%endif%}
