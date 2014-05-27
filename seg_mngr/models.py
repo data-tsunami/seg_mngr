@@ -97,7 +97,7 @@ class ServerTask(models.Model):
     task = models.ForeignKey(Task)
     state = models.CharField(max_length=64, choices=STATE_CHOICES,
         default=PENDIENTE)
-    comments = models.TextField(null=True, blank=True)
+    comments = models.TextField(default='')
 
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name,
