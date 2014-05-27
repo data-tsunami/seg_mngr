@@ -1,14 +1,15 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response, get_object_or_404 
+from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from seg_mngr.models import Server, Task, ServerTask
 from seg_mngr.forms import ServerTaskForm
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+import markdown
 
 
 def home(request):
-    return render_to_response("seg_mngr/index.html")
+    return HttpResponseRedirect('/server_manager/')
 
 
 # Vista para el template seg_mnger/server_manager.html
@@ -65,9 +66,11 @@ def server_tasks(request, id_servidor):
         except ServerTask.DoesNotExist:
             estado = None
         if estado is not None:
-            matriz[tareas] = (estado.state,estado.comments,estado.id)
+            comentario = markdown.markdown(estado.comments)            
+            matriz[tareas] = (estado.state,comentario,estado.id)
         else:
-            matriz[tareas] = ('P','No hay comentarios',0)
+            comentario = markdown.markdown('No hay comentarios')
+            matriz[tareas] = ('P',comentario,0)
     contexto = {
         'servidor': Server.objects.get(pk=id_servidor),
         'tareas': matriz,
@@ -76,20 +79,6 @@ def server_tasks(request, id_servidor):
         "seg_mngr/server_tasks.html", contexto,
         context_instance=RequestContext(request))
 
-
-def update_server_task(request,id_serverTask):
-#     if request.method == 'POST':
-    instance = get_object_or_404(ServerTask, id=id_serverTask)    
-    form = ServerTaskForm(request.POST or None, instance=instance)
-    if form.is_valid():
-        print 'ta todo bien'
-    else:
-        print 'nada anda bien'
-#     else:
-#         form = ServerTaskForm()
-    return render_to_response(
-        "seg_mngr/server_task_form.html",form,
-        context_instance=RequestContext(request))
 
 class ServerTaskUpdateView(UpdateView):
     model = ServerTask
