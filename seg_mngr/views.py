@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 import markdown
+import generator_matriz
 
 
 def home(request):
@@ -15,22 +16,22 @@ def home(request):
 # Vista para el template seg_mnger/server_manager.html
 # Te arma la matriz donde muestra los estado de la tarea por servidor
 def server_manager(request):
-    matriz = {}
-    for tareas in Task.objects.all():
-        for servidor in Server.objects.all():
-            try:
-                estado = ServerTask.objects.get(task=tareas,
-                    server=servidor)
-            except ServerTask.DoesNotExist:
-                estado = None
-            if estado is not None:
-                matriz[(tareas.id, servidor.id)] = estado.state
-            else:
-                matriz[(tareas.id, servidor.id)] = 'P'
+#     matriz = {}
+#     for tareas in Task.objects.all():
+#         for servidor in Server.objects.all():
+#             try:
+#                 estado = ServerTask.objects.get(task=tareas,
+#                     server=servidor)
+#             except ServerTask.DoesNotExist:
+#                 estado = None
+#             if estado is not None:
+#                 matriz[(tareas.id, servidor.id)] = estado.state
+#             else:
+#                 matriz[(tareas.id, servidor.id)] = 'P'
     contexto = {
         'servers': Server.objects.all(),
         'tasks': Task.objects.all(),
-        'matriz': matriz,
+        'matriz': generator_matriz.generator_matriz(),
     }
     return render_to_response(
         "seg_mngr/server_manager.html", contexto,
@@ -59,21 +60,21 @@ def server_tasks(request, id_servidor):
             server_task = ServerTask(task=tarea, server=servidor,
                 state=update_state)
             server_task.save()
-    matriz = {}
-    for tareas in Task.objects.all():
-        try:
-            estado = ServerTask.objects.get(task=tareas, server=servidor)
-        except ServerTask.DoesNotExist:
-            estado = None
-        if estado is not None:
-            comentario = markdown.markdown(estado.comments)            
-            matriz[tareas] = (estado.state,comentario,estado.id)
-        else:
-            comentario = markdown.markdown('No hay comentarios')
-            matriz[tareas] = ('P',comentario,0)
+#     matriz = {}
+#     for tareas in Task.objects.all():
+#         try:
+#             estado = ServerTask.objects.get(task=tareas, server=servidor)
+#         except ServerTask.DoesNotExist:
+#             estado = None
+#         if estado is not None:
+#             comentario = markdown.markdown(estado.comments)            
+#             matriz[tareas] = (estado.state,comentario,estado.id)
+#         else:
+#             comentario = markdown.markdown('No hay comentarios')
+#             matriz[tareas] = ('P',comentario,0)
     contexto = {
         'servidor': Server.objects.get(pk=id_servidor),
-        'tareas': matriz,
+        'tareas': generator_matriz.genertator_matriz_server(servidor),
     }
     return render_to_response(
         "seg_mngr/server_tasks.html", contexto,
