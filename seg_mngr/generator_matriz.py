@@ -19,7 +19,7 @@ def generator_matriz():
             if server_task is not None:
                 matriz[(tareas.id, servidor.id)] = server_task.state
             else:
-                matriz[(tareas.id, servidor.id)] = 'P'
+                matriz[(tareas.id, servidor.id)] = ServerTask.PENDIENTE
 
     return matriz
 
@@ -36,6 +36,6 @@ def genertator_matriz_server(servidor):
             matriz[tareas] = (server_task.state, comentario, server_task.id)
         else:
             comentario = markdown.markdown('No hay comentarios')
-            matriz[tareas] = ('P', comentario, 0)
+            matriz[tareas] = (ServerTask.PENDIENTE, comentario, 0)
 
     return matriz
