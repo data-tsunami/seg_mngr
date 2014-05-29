@@ -27,7 +27,7 @@
           {% for servidor in servers %}
           {% for k,v  in matriz.items %}          
           {% if k.0 == tareas.id and k.1 == servidor.id  %}
-          {% if v == 'P'  %}
+          {% if v == PENDIENTE  %}
           <td><span class="label label-danger">Pendiente</span></td>
           {% endif%}
           {% if v == 'NA'  %}
