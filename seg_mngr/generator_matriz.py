@@ -6,6 +6,7 @@ Created on 28/05/2014
 import markdown
 from seg_mngr.models import ServerTask, Task, Server
 
+
 def generator_matriz():
     matriz = {}
     for tareas in Task.objects.all():
@@ -19,8 +20,9 @@ def generator_matriz():
                 matriz[(tareas.id, servidor.id)] = server_task.state
             else:
                 matriz[(tareas.id, servidor.id)] = 'P'
-    
+
     return matriz
+
 
 def genertator_matriz_server(servidor):
     matriz = {}
@@ -30,10 +32,10 @@ def genertator_matriz_server(servidor):
         except ServerTask.DoesNotExist:
             server_task = None
         if server_task is not None:
-            comentario = markdown.markdown(server_task.comments)            
-            matriz[tareas] = (server_task.state,comentario,server_task.id)
+            comentario = markdown.markdown(server_task.comments)
+            matriz[tareas] = (server_task.state, comentario, server_task.id)
         else:
             comentario = markdown.markdown('No hay comentarios')
-            matriz[tareas] = ('P',comentario,0)
-    
+            matriz[tareas] = ('P', comentario, 0)
+
     return matriz

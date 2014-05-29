@@ -5,8 +5,8 @@ from seg_mngr.models import ServerTask
 
 
 # Formulario de modelo ServerTask
-class ServerTaskForm(forms.ModelForm):       
-            
+class ServerTaskForm(forms.ModelForm):
+
     class Meta:
         model = ServerTask
         fields = ('comments',) 

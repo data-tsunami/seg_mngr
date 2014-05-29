@@ -30,7 +30,7 @@ def server_manager(request):
 # template: seg_mngr/server_task.html
 def server_tasks(request, id_servidor):
     servidor = Server.objects.get(pk=id_servidor)
-    if request.method == 'POST': # recuperar los datos de los submmit
+    if request.method == 'POST':  # recuperar los datos de los submmit
         update_task = [k for k in request.POST.keys()
             if k.startswith(id_servidor + '-')]
         task_id = update_task[0].split('-')[1]
@@ -40,10 +40,10 @@ def server_tasks(request, id_servidor):
             server_task = ServerTask.objects.get(task=tarea, server=servidor)
         except ServerTask.DoesNotExist:
             server_task = None
-        if server_task is not None: #actualiza state en servertask
+        if server_task is not None:  # actualiza state en servertask
             ServerTask.objects.filter(task=tarea, server=servidor).update(
                 state=update_state)
-        else: # si no tiene un serverTask lo crea
+        else:  # si no tiene un serverTask lo crea
             server_task = ServerTask(task=tarea, server=servidor,
                 state=update_state)
             server_task.save()
@@ -63,8 +63,8 @@ class ServerTaskUpdateView(UpdateView):
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.        
+        # It should return an HttpResponse.
         return super(ServerTaskUpdateView, self).form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse('server_tasks', args=[self.object.server.pk])                            
+        return reverse('server_tasks', args=[self.object.server.pk])

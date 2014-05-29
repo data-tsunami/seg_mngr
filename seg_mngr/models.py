@@ -8,7 +8,7 @@ class TaskGroup(models.Model):
     Grupo de Tareas
     """
     name = models.CharField(max_length=64)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -40,7 +40,7 @@ class Location(models.Model):
     Ubicación de un servidor
     """
     name = models.CharField(max_length=64, verbose_name='Location')
-    
+
     def __unicode__(self):
         return self.name
 
@@ -53,15 +53,15 @@ class Server(models.Model):
     NAT = 2
     LAN = 3
     NIVEL_CHOICES = (
-                     (PUBLICO,"Público"),
-                     (NAT,"NAT"),
-                     (LAN,"LAN"),
-                     )
+        (PUBLICO, "Público"),
+        (NAT, "NAT"),
+        (LAN, "LAN"),
+    )
     name = models.CharField(max_length=64)
-    operating_system = models.ForeignKey(OperatingSystem)    
+    operating_system = models.ForeignKey(OperatingSystem)
     location = models.ForeignKey(Location)
     task = models.ManyToManyField(Task, through='ServerTask', blank=True)
-    nivel_exposicion = models.IntegerField(max_length=2, choices=NIVEL_CHOICES, 
+    nivel_exposicion = models.IntegerField(max_length=2, choices=NIVEL_CHOICES,
                                            default=LAN)
 
     def __unicode__(self):
