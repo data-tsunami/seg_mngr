@@ -5,6 +5,7 @@ from seg_mngr.forms import ServerTaskForm
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 import generator_matriz
 
 
@@ -14,6 +15,7 @@ def home(request):
 
 # Vista para el template seg_mnger/server_manager.html
 # Te arma la matriz donde muestra los estado de la tarea por servidor
+@login_required(login_url='/accounts/login/')
 def server_manager(request):
     contexto = {
         'servers': Server.objects.all(),
@@ -28,6 +30,7 @@ def server_manager(request):
 # vista del servidor muestra los estados de las tareas de un servidor
 # Actualiza el estado de la tarea
 # template: seg_mngr/server_task.html
+@login_required(login_url='/accounts/login/')
 def server_tasks(request, id_servidor):
     servidor = Server.objects.get(pk=id_servidor)
     if request.method == 'POST':  # recuperar los datos de los submmit
