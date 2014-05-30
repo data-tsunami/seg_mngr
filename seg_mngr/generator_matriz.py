@@ -17,10 +17,11 @@ def generator_matriz():
             except ServerTask.DoesNotExist:
                 server_task = None
             if server_task is not None:
-                matriz[(tareas.id, servidor.id)] = server_task.state
+                comentario = markdown.markdown(server_task.comments)
+                matriz[(tareas.id, servidor.id)] = (server_task.state, 
+                                                    comentario)
             else:
                 matriz[(tareas.id, servidor.id)] = ServerTask.PENDIENTE
-
     return matriz
 
 

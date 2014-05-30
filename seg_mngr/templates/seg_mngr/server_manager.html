@@ -27,18 +27,31 @@
           {% for servidor in servers %}
           {% for k,v  in matriz.items %}          
           {% if k.0 == tareas.id and k.1 == servidor.id  %}
-          {% if v == PENDIENTE  %}
-          <td><span class="label label-danger">Pendiente</span></td>
+          {% if v.0 == PENDIENTE  %}
+          <td><span class="label label-danger">Pendiente</span>          
+          </td>         
           {% endif%}
-          {% if v == NO_APLICA  %}
-          <td><span class="label label-default">No aplica</span></td>
-          {% endif%}
-          {% if v == EN_CURSO  %}
-          <td><span class="label label-primary">En curso</span></td>
-          {% endif%} 
-          {% if v == FINALIZADA  %}
-          <td><span class="label label-success">Finalizada</span></td>
-          {% endif%}            
+          {% if v.0 == NO_APLICA  %}
+          <td><span class="label label-default">No aplica</span>
+          {% if v.1 != '' %}
+          <span class="glyphicon glyphicon-list"></span>
+          {% endif %}
+          </td>
+          {% endif %}                   
+          {% if v.0 == EN_CURSO  %}
+          <td><span class="label label-primary">En curso</span>
+          {% if v.1 != '' %}
+          <span class="glyphicon glyphicon-list"></span>
+          {% endif %}
+          </td>
+          {% endif %} 
+          {% if v.0 == FINALIZADA  %}
+          <td><span class="label label-success">Finalizada</span>
+          {% if v.1 != '' %}
+          <span class="glyphicon glyphicon-list"></span>
+          {% endif %}
+          </td>
+          {% endif %}            
           {% endif %}
           {% endfor %}
           {% endfor %}
