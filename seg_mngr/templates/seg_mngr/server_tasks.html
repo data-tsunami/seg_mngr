@@ -26,16 +26,16 @@
 		<tr>
 			<td>{{k.name}}</td>
 			{% autoescape off %}
-			{% if v.0 == 'P'  %}
+			{% if v.0 == PENDIENTE  %}
           	<td><span class="label label-danger">Pendiente</span></td>
           	{% endif%}
-          	{% if v.0 == 'NA'  %}
+          	{% if v.0 == NO_APLICA  %}
           	<td><span class="label label-default">No aplica</span></td>
           	{% endif%}
-          	{% if v.0 == 'EC'  %}
+          	{% if v.0 == EN_CURSO  %}
           	<td><span class="label label-primary">En curso</span></td>
           	{% endif%} 
-          	{% if v.0 == 'F'  %}
+          	{% if v.0 == FINALIZADA  %}
           	<td><span class="label label-success">Finalizada</span></td>
           	{% endif%}
 			{% if v.2 != 0  %}

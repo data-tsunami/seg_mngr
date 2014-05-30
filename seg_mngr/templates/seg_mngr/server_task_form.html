@@ -7,16 +7,16 @@
         <table class="table table-bordered">
         <tr><td>Server  </td><td><strong>{{ object.server.name}}</string></td></tr>
         <tr><td>Task    </td><td><strong>{{ object.task.name}}</string></td></tr>
-          {% if object.state == 'PENDIENTE'  %}
+          {% if object.state == PENDIENTE  %}
           <tr><td>State   </td><td><span class="label label-danger">Pendiente</span></td></tr>
           {% endif%}
-          {% if object.state == 'NO_APLICA'  %}
+          {% if object.state == NO_APLICA  %}
           <tr><td>State   </td><td><span class="label label-default">No aplica</span></td></tr>
           {% endif%}
-          {% if object.state == 'EN_CURSO'  %}
+          {% if object.state == EN_CURSO  %}
           <tr><td>State   </td><td><span class="label label-primary">En curso</span></td></tr>
           {% endif%} 
-          {% if object.state == 'FINALIZADA'  %}
+          {% if object.state == FINALIZADA  %}
           <tr><td>State   </td><td><span class="label label-success">Finalizada</span></td></tr>
           {% endif%}
            {{form.as_table}}        
