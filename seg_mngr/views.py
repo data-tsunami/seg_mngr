@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from seg_mngr.models import Server, Task, ServerTask
+from seg_mngr.models import Server, Task, ServerTask, TaskGroup
 from seg_mngr.forms import ServerTaskForm
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
@@ -17,10 +17,10 @@ def home(request):
 # Te arma la matriz donde muestra los estado de la tarea por servidor
 @login_required(login_url='/accounts/login/')
 def server_manager(request):
+    matriz, servidores = generator_matriz.generator_matriz()
     contexto = {
-        'servers': Server.objects.all(),
-        'tasks': Task.objects.all(),
-        'matriz': generator_matriz.generator_matriz(),
+        'servers': servidores,
+        'matriz': matriz,
     }
     return render_to_response(
         "seg_mngr/server_manager.html", contexto,
@@ -41,18 +41,17 @@ def server_tasks(request, id_servidor):
         tarea = Task.objects.get(pk=task_id)
         try:
             server_task = ServerTask.objects.get(task=tarea, server=servidor)
-        except ServerTask.DoesNotExist:
-            server_task = None
-        if server_task is not None:  # actualiza state en servertask
             ServerTask.objects.filter(task=tarea, server=servidor).update(
                 state=update_state)
-        else:  # si no tiene un serverTask lo crea
+        except ServerTask.DoesNotExist:
             server_task = ServerTask(task=tarea, server=servidor,
                 state=update_state)
             server_task.save()
+        return HttpResponseRedirect('/server_tasks/' + id_servidor)
+
     contexto = {
         'servidor': Server.objects.get(pk=id_servidor),
-        'tareas': generator_matriz.genertator_matriz_server(servidor),
+        'matriz': generator_matriz.genertator_matriz_server(servidor),
     }
     return render_to_response(
         "seg_mngr/server_tasks.html", contexto,

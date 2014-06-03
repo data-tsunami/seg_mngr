@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
+import markdown
 from django.db import models
 
 
@@ -67,6 +70,9 @@ class Server(models.Model):
     def __unicode__(self):
         return self.name
 
+    def getIp(self):
+        return ConfigIp.objects.filter(server=self)
+
 
 class ConfigIp(models.Model):
     """
@@ -98,6 +104,12 @@ class ServerTask(models.Model):
     state = models.CharField(max_length=64, choices=STATE_CHOICES,
         default=PENDIENTE)
     comments = models.TextField(default='')
+
+    def get_comentario_as_forhtml(self):
+        if self.comments != '':
+            return markdown.markdown(self.comments)
+        else:
+            return self.comments
 
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name,

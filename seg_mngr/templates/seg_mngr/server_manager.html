@@ -9,56 +9,67 @@
           <th>#</th>
           {% if servers %}
           {% for servidor in servers %}
-          <th><a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a></th>
+          <th><a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a> <a href="/admin/seg_mngr/server/{{servidor.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
+           
+           <div>
+          {{servidor.operating_system}}
+          </div>
+          <div>
+          <div>
+          {{servidor.operating_system}}
+          </div>
+          <div>
+          {{servidor.location}}
+          </div>          
+          </th>
           {% endfor %}       
           {% endif %}
         </tr>
       </thead>
       <tbody>
-        {% if tasks %}
-        {% for tareas in tasks %}
-        {% ifchanged %}
+        {% if matriz %}
+        {% for fila in matriz %}
+		{% ifchanged %}
         <tr>
-        <td colspan=3><p class="text-center"><strong>Grupo  </strong>{{tareas.task_group}} </p></td>
-        </tr>        
+        <td colspan=3><p class="text-center"><strong>Grupo </strong>{{fila.0.task_group}} </p></td>
+        </tr>
         {% endifchanged %}
         <tr>
-          <td >{{tareas.name}}</td>
-          {% for servidor in servers %}
-          {% for k,v  in matriz.items %}          
-          {% if k.0 == tareas.id and k.1 == servidor.id  %}
-          {% if v.0 == PENDIENTE  %}
-          <td><span class="label label-danger">Pendiente</span>          
+          <td >{{fila.0.name}} <a href="/admin/seg_mngr/task/{{tareas.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a></td>
+          {% for server_task in fila.1 %}
+          {% if server_task.state == PENDIENTE  %}
+          <td><span class="label label-danger">Pendiente</span> 
+          {% if server_task.comments != '' %}
+          <span class="glyphicon glyphicon-list"></span>
+          {% endif %}
           </td>         
           {% endif%}
-          {% if v.0 == NO_APLICA  %}
+          {% if server_task.state == NO_APLICA  %}
           <td><span class="label label-default">No aplica</span>
-          {% if v.1 != '' %}
+          {% if server_task.comments != '' %}
           <span class="glyphicon glyphicon-list"></span>
           {% endif %}
           </td>
           {% endif %}                   
-          {% if v.0 == EN_CURSO  %}
+          {% if server_task.state == EN_CURSO  %}
           <td><span class="label label-primary">En curso</span>
-          {% if v.1 != '' %}
+          {% if server_task.comments != '' %}
           <span class="glyphicon glyphicon-list"></span>
           {% endif %}
           </td>
           {% endif %} 
-          {% if v.0 == FINALIZADA  %}
+          {% if server_task.state == FINALIZADA  %}
           <td><span class="label label-success">Finalizada</span>
-          {% if v.1 != '' %}
+          {% if server_task.comments != '' %}
           <span class="glyphicon glyphicon-list"></span>
           {% endif %}
           </td>
-          {% endif %}            
           {% endif %}
-          {% endfor %}
-          {% endfor %}
+          {% endfor %} <!-- for server_task -->
         <!-- <td><span class="label label-success">OK</span></td>-->
-        </tr>    
-        {% endfor %}
-        {% endif %}
+        </tr>
+        {% endfor %} <!-- for matriz -->
+        {% endif %} <!-- if matriz -->
       </tbody>
     </table>
 {% endblock %}
