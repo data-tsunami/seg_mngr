@@ -17,4 +17,6 @@ urlpatterns = patterns('',
         name='server_task_form'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
+        {'next_page': '/', }, name='logout',),
 )
