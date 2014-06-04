@@ -50,7 +50,7 @@
         {% for fila in matriz %}
 		{% ifchanged %}
         <tr>
-        <td colspan=3><p class="text-center"><strong>Grupo </strong>{{fila.0.task_group}} </p></td>
+        <td colspan={{ servers|length|add:"1" }}><p class="text-center"><strong>Grupo </strong>{{fila.0.task_group}} </p></td>
         </tr>
         {% endifchanged %}
         <tr>
