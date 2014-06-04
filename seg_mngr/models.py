@@ -103,7 +103,7 @@ class ServerTask(models.Model):
     task = models.ForeignKey(Task)
     state = models.CharField(max_length=64, choices=STATE_CHOICES,
         default=PENDIENTE)
-    comments = models.TextField(default='')
+    comments = models.TextField(default='', blank=True)
 
     def get_comentario_as_forhtml(self):
         if self.comments != '':
