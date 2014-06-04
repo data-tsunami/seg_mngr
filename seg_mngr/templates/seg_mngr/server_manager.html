@@ -3,6 +3,11 @@
 {% block content %}
 <br>
 
+<form name ='form' action='.' method='post' enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+</form>
+
  <table class="table table-bordered">
       <thead>
         <tr>
@@ -10,17 +15,31 @@
           {% if servers %}
           {% for servidor in servers %}
           <th><a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a> <a href="/admin/seg_mngr/server/{{servidor.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
-           
+           {% for ip in servidor.getIp %}
            <div>
-          {{servidor.operating_system}}
+          {{ip.ip_address}}
           </div>
+          {% endfor %}
           <div>
           <div>
           {{servidor.operating_system}}
           </div>
           <div>
           {{servidor.location}}
-          </div>          
+          </div>
+          {% if servidor.nivel_exposicion == PUBLICO %}
+          <div>
+          Público
+          </div>
+          {% elif servidor.nivel_exposicion == NAT  %}
+          <div>
+          NAT
+          </div>
+          {% else %}
+          <div>
+          LAN
+          </div>
+          {% endif %}
           </th>
           {% endfor %}       
           {% endif %}
@@ -35,7 +54,7 @@
         </tr>
         {% endifchanged %}
         <tr>
-          <td >{{fila.0.name}} <a href="/admin/seg_mngr/task/{{tareas.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a></td>
+          <td >{{fila.0.name}} <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a></td>
           {% for server_task in fila.1 %}
           {% if server_task.state == PENDIENTE  %}
           <td><span class="label label-danger">Pendiente</span> 
@@ -72,4 +91,16 @@
         {% endif %} <!-- if matriz -->
       </tbody>
     </table>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+ $(document).ready(function() {
+ $(function() {
+    $('#id_operating_system').change(function() {
+        document.form.submit();
+    });
+});
+});
+</script>
 {% endblock %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from seg_mngr.models import Server, Task, ServerTask, TaskGroup
-from seg_mngr.forms import ServerTaskForm
+from seg_mngr.models import Server, Task, ServerTask, TaskGroup, \
+    OperatingSystem
+from seg_mngr.forms import ServerTaskForm, ServerSearchForm
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -10,17 +11,29 @@ import generator_matriz
 
 
 def home(request):
-    return HttpResponseRedirect('/server_manager/')
+    return HttpResponseRedirect('/server_manager/' + str(0))
 
 
 # Vista para el template seg_mnger/server_manager.html
 # Te arma la matriz donde muestra los estado de la tarea por servidor
 @login_required(login_url='/accounts/login/')
-def server_manager(request):
-    matriz, servidores = generator_matriz.generator_matriz()
+def server_manager(request, id_operating_systems):
+    matriz, servidores = generator_matriz.generator_matriz(
+        int(id_operating_systems))
+    if request.method == 'POST':
+        form = ServerSearchForm(request.POST, request.FILES)
+        if form.is_valid():
+            operating_system_selected = form.cleaned_data['operating_system']
+            return HttpResponseRedirect('/server_manager/' +
+                                        operating_system_selected)
+
+    else:
+        form = ServerSearchForm()
+
     contexto = {
         'servers': servidores,
         'matriz': matriz,
+        'form': form,
     }
     return render_to_response(
         "seg_mngr/server_manager.html", contexto,

@@ -49,6 +49,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "seg_mngr.context_processors.server_task_state",
+    "seg_mngr.context_processors.server_nivel_exposicion",
     'django.core.context_processors.request',
 )
 

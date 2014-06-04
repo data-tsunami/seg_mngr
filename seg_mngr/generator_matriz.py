@@ -25,9 +25,13 @@ from seg_mngr.models import ServerTask, Task, Server
 #     return matriz
 
 
-def generator_matriz():
+def generator_matriz(id_operating_system):
     matriz = []
     servidores = Server.objects.all()
+    if(id_operating_system != 0):
+        servidores = Server.objects.filter(
+            operating_system=id_operating_system)
+
     server_task_vacio = ServerTask()
 
     for tarea in Task.objects.all().order_by('task_group'):
