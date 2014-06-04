@@ -19,10 +19,11 @@ class ServerSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         CHOICES = [
+            ('', "select an option"),
             (0, "ALL Operating Systems"),
         ]
         super(ServerSearchForm, self).__init__(*args, **kwargs)
         choices = [(os.id, unicode(os)) for os in
                    OperatingSystem.objects.all()]
-        choices.extend(CHOICES)
-        self.fields['operating_system'].choices = choices
+        CHOICES.extend(choices)
+        self.fields['operating_system'].choices = CHOICES
