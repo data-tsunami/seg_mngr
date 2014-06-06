@@ -17,9 +17,9 @@ def home(request):
 # Vista para el template seg_mnger/server_manager.html
 # Te arma la matriz donde muestra los estado de la tarea por servidor
 @login_required(login_url='/accounts/login/')
-def server_manager(request, id_operating_systems):
+def server_manager(request, id_operating_system):
     matriz, servidores = generator_matriz.generator_matriz(
-        int(id_operating_systems))
+        int(id_operating_system))
     if request.method == 'POST':
         form = ServerSearchForm(request.POST, request.FILES)
         if form.is_valid():
@@ -34,6 +34,7 @@ def server_manager(request, id_operating_systems):
         'servers': servidores,
         'matriz': matriz,
         'form': form,
+        'operating_system_id':id_operating_system,
     }
     return render_to_response(
         "seg_mngr/server_manager.html", contexto,

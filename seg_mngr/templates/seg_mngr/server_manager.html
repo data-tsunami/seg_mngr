@@ -97,6 +97,7 @@
 <script type="text/javascript">
  $(document).ready(function() {
  $(function() {
+ 	$('#id_operating_system').val("{{ operating_system_id }}").change();
     $('#id_operating_system').change(function() {
         document.form.submit();
     });
