@@ -34,7 +34,7 @@ def server_manager(request, id_operating_system):
         'servers': servidores,
         'matriz': matriz,
         'form': form,
-        'operating_system_id':id_operating_system,
+        'operating_system_id': id_operating_system,
     }
     return render_to_response(
         "seg_mngr/server_manager.html", contexto,
