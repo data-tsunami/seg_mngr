@@ -3,10 +3,13 @@
 {% block content %}
 <br>
 
-<form name ='form' action='.' method='post' enctype="multipart/form-data">
+<form name ='form' action='.' method='post' class="form-inline" enctype="multipart/form-data">
 {% csrf_token %}
 {{form.as_p}}
 </form>
+
+<hr>
+
 <a href="javascript:void(0);" onclick="mostrar()">Mostrar Comentario</a>
  <table class="table table-bordered">
       <thead>
@@ -143,10 +146,12 @@
     $('#id_operating_system').change(function() {
         document.form.submit();
     });
+    $('#id_operating_system').addClass('form-control');
 });
 });
 
-function mostrar(){
-$('.comentario').show();}
+function mostrar() {
+    $('.comentario').show();
+}
 </script>
 {% endblock %}
