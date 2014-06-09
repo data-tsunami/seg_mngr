@@ -27,28 +27,38 @@
 		<tr>
 			<td>{{fila.0.name}}</td>
 			{% autoescape off %}
-			{% if fila.1.state == PENDIENTE  %}
-          	<td><span class="label label-danger">Pendiente</span></td>
-          	{% endif%}
-          	{% if fila.1.state == NO_APLICA  %}
-          	<td><span class="label label-default">No aplica</span></td>
-          	{% endif%}
-          	{% if fila.1.state == EN_CURSO  %}
-          	<td><span class="label label-primary">En curso</span></td>
-          	{% endif%} 
-          	{% if fila.1.state == FINALIZADA  %}
-          	<td><span class="label label-success">Finalizada</span></td>
-          	{% endif %}
-			{% if fila.1.id != 0  %}
-			<td>{{fila.1.get_comentario_as_forhtml}} <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>
-			{% else %}
-			<td>{{fila.1.comments}}</td>			
-			{%endif%}			
+				{% if fila.1.state == PENDIENTE  %}
+	          	<td><span class="label label-danger">Pendiente</span></td>
+	          	{% endif%}
+	          	{% if fila.1.state == NO_APLICA  %}
+	          	<td><span class="label label-default">No aplica</span></td>
+	          	{% endif%}
+	          	{% if fila.1.state == EN_CURSO  %}
+	          	<td><span class="label label-primary">En curso</span></td>
+	          	{% endif%} 
+	          	{% if fila.1.state == FINALIZADA  %}
+	          	<td><span class="label label-success">Finalizada</span></td>
+	          	{% endif %}
+				{% if fila.1.id != 0  %}
+					<td>
+					   {% if fila.1.tiene_comentario %}
+						   <div class="panel panel-default"><div class="panel-body">
+						       {{fila.1.get_comentario_as_forhtml}}
+						   </div></div>
+					   {% endif %}
+					   <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}"
+					   value="Modificar Comentario" class="btn btn-sm ">Editar</a>
+					</td>
+				{% else %}
+					<td>
+				       {{fila.1.comments}}
+					</td>			
+				{%endif%}			
 			{% endautoescape %}
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-EC" value="En curso" class="btn btn-mini "><span class="glyphicon glyphicon-time"></span> En curso</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-NA" value="No aplica" class="btn btn-mini "><span class="glyphicon glyphicon-remove"></span> No Aplica</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-P" value="Pendiente" class="btn btn-mini "><span class="glyphicon glyphicon-play-circle"></span> Pendiente</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-F" value="Finalizada" class="btn btn-mini "><span class="glyphicon glyphicon-ok"></span> Finalizada</button></td>			
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-EC" value="En curso" class="btn btn-sm "><span class="glyphicon glyphicon-time"></span> En curso</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-NA" value="No aplica" class="btn btn-sm "><span class="glyphicon glyphicon-remove"></span> No Aplica</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-P" value="Pendiente" class="btn btn-sm "><span class="glyphicon glyphicon-play-circle"></span> Pendiente</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-F" value="Finalizada" class="btn btn-sm "><span class="glyphicon glyphicon-ok"></span> Finalizada</button></td>			
 		</tr>
 		{% endfor%} <! -- endfor matriz -->
 		{% endif %} <!-- endif matriz -->
