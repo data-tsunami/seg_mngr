@@ -99,42 +99,49 @@
         </tr>
         {% endifchanged %}
         <tr>
-          <td >{{fila.0.name}} <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a></td>
+          <td>
+            {{fila.0.name}}
+            <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
+          </td>
           {% autoescape off %}
+          
           {% for server_task in fila.1 %}
-          {% if server_task.state == PENDIENTE  %}
-          <td><span class="label label-danger">Pendiente</span> 
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>         
-          {% endif%}
-          {% if server_task.state == NO_APLICA  %}
-          <td><span class="label label-default">No aplica</span>
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>
-          {% endif %}                   
-          {% if server_task.state == EN_CURSO  %}
-          <td><span class="label label-primary">En curso</span>
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>
-          {% endif %} 
 
-          {% if server_task.state == FINALIZADA  %}
-	          <td><span class="label label-success">Finalizada</span>
-		          {% if server_task.comments != '' %}
-			          <span class="glyphicon glyphicon-list"></span>
-			          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-		          {% endif %}
-	          </td>
-          {% endif %}
+	          {% if server_task.state == PENDIENTE  %}
+		          <td><span class="label label-danger">Pendiente</span> 
+			          {% if server_task.comments != '' %}
+				          <span class="glyphicon glyphicon-list"></span>
+				          <div style="display:none;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>        
+	          {% endif%}
+
+	          {% if server_task.state == NO_APLICA  %}
+		          <td><span class="label label-default">No aplica</span>
+			          {% if server_task.comments != '' %}
+				          <span class="glyphicon glyphicon-list"></span>
+                          <div style="display:none;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %}              
+
+	          {% if server_task.state == EN_CURSO  %}
+		          <td><span class="label label-primary">En curso</span>
+			          {% if server_task.comments != '' %}
+				          <span class="glyphicon glyphicon-list"></span>
+                          <div style="display:none;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %} 
+	
+	          {% if server_task.state == FINALIZADA  %}
+		          <td><span class="label label-success">Finalizada</span>
+			          {% if server_task.comments != '' %}
+				          <span class="glyphicon glyphicon-list"></span>
+                          <div style="display:none;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %}
 
           {% endfor %} <!-- for server_task -->
           {% endautoescape %}
