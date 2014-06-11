@@ -111,6 +111,9 @@ class ServerTask(models.Model):
         else:
             return self.comments
 
+    def tiene_comentario(self):
+        return len(self.comments.strip()) > 0
+
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name,
             self.task.name)

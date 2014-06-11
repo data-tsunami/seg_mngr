@@ -7,12 +7,14 @@
 <br>
 <h3>Tareas del servidor</h3>
   	 
-<table class="table">
+<table class="table table-condensed">
 	<thead>
 		<tr>
-			<th>Tareas</th>
-			<th>Estado</th>
-		</tr>
+            <th>Tareas</th>
+            <th width="1%">Estado</th>
+            <th>Comentarios</th>
+            <th colspan="4" width="1%">&nbsp;</th>
+        </tr>
 	</thead>
 	<tbody>
   		<form  action='.' method='POST' enctype="multipart/form-data">
@@ -21,34 +23,46 @@
         {% for fila in matriz %}
         {% ifchanged %}
         <tr>
-        <td colspan=7><p class="text-center"><strong>Grupo </strong>{{fila.0.task_group}} </p></td>
+	        <td colspan=7 class="info">
+	            Grupo de tareas: <strong>{{fila.0.task_group}}</strong>
+	        </td>
         </tr>
         {% endifchanged %}
 		<tr>
 			<td>{{fila.0.name}}</td>
 			{% autoescape off %}
-			{% if fila.1.state == PENDIENTE  %}
-          	<td><span class="label label-danger">Pendiente</span></td>
-          	{% endif%}
-          	{% if fila.1.state == NO_APLICA  %}
-          	<td><span class="label label-default">No aplica</span></td>
-          	{% endif%}
-          	{% if fila.1.state == EN_CURSO  %}
-          	<td><span class="label label-primary">En curso</span></td>
-          	{% endif%} 
-          	{% if fila.1.state == FINALIZADA  %}
-          	<td><span class="label label-success">Finalizada</span></td>
-          	{% endif %}
-			{% if fila.1.id != 0  %}
-			<td>{{fila.1.get_comentario_as_forhtml}} <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}" value="Modificar Comentario" class="btn btn-mini ">Editar</a></td>
-			{% else %}
-			<td>{{fila.1.comments}}</td>			
-			{%endif%}			
+				{% if fila.1.state == PENDIENTE  %}
+	          	    <td><span class="label label-danger">Pendiente</span></td>
+	          	{% endif%}
+	          	{% if fila.1.state == NO_APLICA  %}
+	          	    <td><span class="label label-default">No aplica</span></td>
+	          	{% endif%}
+	          	{% if fila.1.state == EN_CURSO  %}
+	          	    <td><span class="label label-primary">En curso</span></td>
+	          	{% endif%} 
+	          	{% if fila.1.state == FINALIZADA  %}
+	          	    <td><span class="label label-success">Finalizada</span></td>
+	          	{% endif %}
+				{% if fila.1.id != 0  %}
+					<td>
+					   {% if fila.1.tiene_comentario %}
+						   <div class="panel panel-default"><div class="panel-body">
+						       {{fila.1.get_comentario_as_forhtml}}
+						   </div></div>
+					   {% endif %}
+					   <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}"
+					   value="Modificar Comentario" class="btn btn-sm ">Editar</a>
+					</td>
+				{% else %}
+					<td>
+				       {{fila.1.comments}}
+					</td>			
+				{%endif%}			
 			{% endautoescape %}
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-EC" value="En curso" class="btn btn-mini "><span class="glyphicon glyphicon-time"></span> En curso</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-NA" value="No aplica" class="btn btn-mini "><span class="glyphicon glyphicon-remove"></span> No Aplica</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-P" value="Pendiente" class="btn btn-mini "><span class="glyphicon glyphicon-play-circle"></span> Pendiente</button></td>
-			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-F" value="Finalizada" class="btn btn-mini "><span class="glyphicon glyphicon-ok"></span> Finalizada</button></td>			
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-EC" value="En curso" class="btn btn-sm "><span class="glyphicon glyphicon-time"></span> En curso</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-NA" value="No aplica" class="btn btn-sm "><span class="glyphicon glyphicon-remove"></span> No Aplica</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-P" value="Pendiente" class="btn btn-sm "><span class="glyphicon glyphicon-play-circle"></span> Pendiente</button></td>
+			<td><button type="submit" name="{{servidor.id}}-{{fila.0.id}}-F" value="Finalizada" class="btn btn-sm "><span class="glyphicon glyphicon-ok"></span> Finalizada</button></td>			
 		</tr>
 		{% endfor%} <! -- endfor matriz -->
 		{% endif %} <!-- endif matriz -->

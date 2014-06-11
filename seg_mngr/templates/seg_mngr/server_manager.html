@@ -3,64 +3,71 @@
 {% block content %}
 <br>
 
-<form name ='form' action='.' method='post' enctype="multipart/form-data">
+<form name ='form' action='.' method='post' class="form-inline" enctype="multipart/form-data">
 {% csrf_token %}
 {{form.as_p}}
 </form>
-<a  onclick="mostrar()">Mostrar Comentario</a>
- <table class="table table-bordered">
+
+<hr>
+
+<a href="javascript:void(0);" onclick="mostrar()">Mostrar Comentario</a>
+ <table class="table table-bordered table-condensed">
       <thead>
-        <tr >
+        <tr class="success">
           <th style="text-align:right;">Nombre del Servidor</th>
           {% if servers %}
-          {% for servidor in servers %}
-          <th><a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a> <a href="/admin/seg_mngr/server/{{servidor.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
-           </th>
-           {% endfor %}       
+	          {% for servidor in servers %}
+	           <th>
+	               <a href="/admin/seg_mngr/server/{{servidor.id}}/" target="_blank" style="color:#000">
+	                   <span class="glyphicon glyphicon-wrench"></span>
+	               </a>
+                   <a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a>
+	           </th>
+	          {% endfor %}       
           {% endif %}
       </tr>
-      <tr>
-          <th style="text-align:right;">Ips del Servidor</th>
+      <tr class="warning small">
+          <td style="text-align:right;">Ips del Servidor</td>
           {% if servers %}
           {% for servidor in servers %}
-          <th>{% for ip in servidor.getIp %}
+          <td>{% for ip in servidor.getIp %}
            <div>
           {{ip.ip_address}}
           </div>
           {% endfor %}
-           </th>
+           </td>
            {% endfor %}       
           {% endif %}
       </tr>
-          <tr>
-          <th style="text-align:right;">Sistema operativo del Servidor</th>
+      <tr class="warning small">
+          <td style="text-align:right;">Sistema operativo del Servidor</td>
           {% if servers %}
           {% for servidor in servers %}
-         <th>
+         <td>
          <div>
           {{servidor.operating_system}}
           </div>
-           </th>
+           </td>
            {% endfor %}       
           {% endif %}
       </tr> 
-            <tr>
-          <th style="text-align:right;">Ubicación del Servidor</th>
+      <tr class="warning small">
+          <td style="text-align:right;">Ubicación del Servidor</td>
           {% if servers %}
           {% for servidor in servers %}
-        <th>
+        <td>
         <div>
           {{servidor.location}}
           </div>
-           </th>
+           </td>
            {% endfor %}       
           {% endif %}
       </tr> 
-              <tr>
-          <th style="text-align:right;">Nivel de exposición del Servidor</th>
+      <tr class="warning small">
+          <td style="text-align:right;">Nivel de exposición del Servidor</td>
           {% if servers %}
           {% for servidor in servers %}
-          <th>
+          <td>
         {% if servidor.nivel_exposicion == PUBLICO %}
           
           <div>
@@ -75,7 +82,7 @@
           LAN
           </div>
           {% endif %}
-           </th>
+           </td>
            {% endfor %}       
           {% endif %}
           
@@ -85,46 +92,57 @@
         {% if matriz %}
         {% for fila in matriz %}
 		{% ifchanged %}
-        <tr>
-        <td colspan={{ servers|length|add:"1" }}><p class="text-center"><strong>Grupo </strong>{{fila.0.task_group}} </p></td>
+        <tr class="info">
+            <td colspan={{ servers|length|add:"1" }}>
+                Grupo de tareas: <strong>{{fila.0.task_group}}</strong>
+            </td>
         </tr>
         {% endifchanged %}
         <tr>
-          <td >{{fila.0.name}} <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a></td>
+          <td>
+            <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
+            {{fila.0.name}}
+          </td>
           {% autoescape off %}
+          
           {% for server_task in fila.1 %}
-          {% if server_task.state == PENDIENTE  %}
-          <td><span class="label label-danger">Pendiente</span> 
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>         
-          {% endif%}
-          {% if server_task.state == NO_APLICA  %}
-          <td><span class="label label-default">No aplica</span>
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>
-          {% endif %}                   
-          {% if server_task.state == EN_CURSO  %}
-          <td><span class="label label-primary">En curso</span>
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>
-          {% endif %} 
-          {% if server_task.state == FINALIZADA  %}
-          <td><span class="label label-success">Finalizada</span>
-          {% if server_task.comments != '' %}
-          <span class="glyphicon glyphicon-list"></span>
-          <div style="display:none;" class="comentario">{{server_task.get_comentario_as_forhtml}}</div> 
-          {% endif %}
-          </td>
-          {% endif %}
+
+	          {% if server_task.state == PENDIENTE  %}
+		          <td><span class="label label-danger">Pendiente</span> 
+			          {% if server_task.comments != '' %}
+				          <span class="comentario glyphicon glyphicon-list"></span>
+				          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>        
+	          {% endif%}
+
+	          {% if server_task.state == NO_APLICA  %}
+		          <td><span class="label label-default">No aplica</span>
+			          {% if server_task.comments != '' %}
+				          <span class="comentario glyphicon glyphicon-list"></span>
+                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %}              
+
+	          {% if server_task.state == EN_CURSO  %}
+		          <td><span class="label label-primary">En curso</span>
+			          {% if server_task.comments != '' %}
+				          <span class="comentario glyphicon glyphicon-list"></span>
+                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %} 
+	
+	          {% if server_task.state == FINALIZADA  %}
+		          <td><span class="label label-success">Finalizada</span>
+			          {% if server_task.comments != '' %}
+				          <span class="comentario glyphicon glyphicon-list"></span>
+                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+			          {% endif %}
+		          </td>
+	          {% endif %}
+
           {% endfor %} <!-- for server_task -->
           {% endautoescape %}
         <!-- <td><span class="label label-success">OK</span></td>-->
@@ -143,10 +161,12 @@
     $('#id_operating_system').change(function() {
         document.form.submit();
     });
+    $('#id_operating_system').addClass('form-control');
 });
 });
 
-function mostrar(){
-$('.comentario').show();}
+function mostrar() {
+    $('.comentario').toggle();
+}
 </script>
 {% endblock %}
