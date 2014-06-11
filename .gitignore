@@ -9,3 +9,4 @@ nosetests.xml
 coverage.xml
 /docs/_build
 /.coverage
+/build
