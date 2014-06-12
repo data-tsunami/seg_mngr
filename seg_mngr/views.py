@@ -37,7 +37,7 @@ def server_manager(request, id_operating_system):
         'operating_system_id': id_operating_system,
     }
     return render_to_response(
-        "seg_mngr/server_matriz.html", contexto,
+        "seg_mngr/server_matrix.html", contexto,
         context_instance=RequestContext(request))
 
 
