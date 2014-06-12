@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 import generator_matriz
+import datetime
 
 
 def home(request):
@@ -56,10 +57,12 @@ def server_tasks(request, id_servidor):
         try:
             server_task = ServerTask.objects.get(task=tarea, server=servidor)
             ServerTask.objects.filter(task=tarea, server=servidor).update(
-                state=update_state)
+                state=update_state, date_update_state=datetime.datetime.now(),
+                autor_update_state=request.user)
         except ServerTask.DoesNotExist:
             server_task = ServerTask(task=tarea, server=servidor,
-                state=update_state)
+                state=update_state, date_update_state=datetime.datetime.now(),
+                autor_update_state=request.user)
             server_task.save()
         return HttpResponseRedirect('/server_tasks/' + id_servidor)
 

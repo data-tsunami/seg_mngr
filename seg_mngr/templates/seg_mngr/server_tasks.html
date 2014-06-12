@@ -5,8 +5,12 @@
 <h5>Sistema Operativo: {{servidor.operating_system}}</h5>
 <h5>Ubicación: {{servidor.location}}</h5>
 <br>
+
+<hr>
+
 <h3>Tareas del servidor</h3>
-  	 
+
+<a href="javascript:void(0);" onclick="mostrar()">Mostrar Datos</a>
 <table class="table table-condensed">
 	<thead>
 		<tr>
@@ -35,20 +39,43 @@
 	          	    <td><span class="label label-danger">Pendiente</span></td>
 	          	{% endif%}
 	          	{% if fila.1.state == NO_APLICA  %}
-	          	    <td><span class="label label-default">No aplica</span></td>
+	          	    <td><span class="label label-default">No aplica</span>
+	          	    <div style="display:none; margin-top: 0.6em;" 
+                          class="datos_update">
+                          <p>Ultima actualización:
+                          {{fila.1.date_update_state|date:"d/m/Y h:m:s"}}
+                          por: {{fila.1.autor_update_state.username}}</p>
+                          </div>
+                          </td>
 	          	{% endif%}
 	          	{% if fila.1.state == EN_CURSO  %}
-	          	    <td><span class="label label-primary">En curso</span></td>
+	          	    <td><span class="label label-primary">En curso</span>
+	          	    <div style="display:none; margin-top: 0.6em;" 
+                          class="datos_update">
+                          <p>Ultima actualización:
+                          {{fila.1.date_update_state|date:"d/m/Y h:m:s"}}
+                          por: {{fila.1.autor_update_state.username}}</p>
+                          </div>
+                          </td>
 	          	{% endif%} 
 	          	{% if fila.1.state == FINALIZADA  %}
-	          	    <td><span class="label label-success">Finalizada</span></td>
+	          	    <td><span class="label label-success">Finalizada</span>
+	          	     <div style="display:none; margin-top: 0.6em;" 
+                          class="datos_update">
+                          <p>Ultima actualización:
+                          {{fila.1.date_update_state|date:"d/m/Y h:m:s"}}
+                          por: {{fila.1.autor_update_state.username}}</p>
+                          </div>
+                          </td>
 	          	{% endif %}
 				{% if fila.1.id != 0  %}
 					<td>
 					   {% if fila.1.tiene_comentario %}
 						   <div class="panel panel-default"><div class="panel-body">
 						       {{fila.1.get_comentario_as_forhtml}}
-						   </div></div>
+						   </div>
+						  
+						   </div>
 					   {% endif %}
 					   <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}"
 					   value="Modificar Comentario" class="btn btn-sm ">Editar</a>
@@ -72,4 +99,13 @@
 <a class="btn btn-primary"  href="/server_manager/0">Volver</a>
 
 
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+
+
+function mostrar() {
+    $('.datos_update').toggle();
+}
+</script>
 {% endblock %}
