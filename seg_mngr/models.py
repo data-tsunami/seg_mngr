@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 import markdown
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class TaskGroup(models.Model):
@@ -104,6 +105,8 @@ class ServerTask(models.Model):
     state = models.CharField(max_length=64, choices=STATE_CHOICES,
         default=PENDIENTE)
     comments = models.TextField(default='', blank=True)
+    date_update_state = models.DateTimeField()
+    autor_update_state = models.ForeignKey(User)
 
     def get_comentario_as_forhtml(self):
         if self.comments != '':
