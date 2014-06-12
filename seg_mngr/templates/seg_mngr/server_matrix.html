@@ -3,7 +3,8 @@
 {% block content %}
 <br>
 
-<form name ='form' action='.' method='post' class="form-inline" enctype="multipart/form-data">
+<form name ='form' action='.' method='post' class="form-inline" 
+enctype="multipart/form-data">
 {% csrf_token %}
 {{form.as_p}}
 </form>
@@ -15,20 +16,21 @@
       <thead>
         <tr class="success">
           <th style="text-align:right;">Nombre del Servidor</th>
-          {% if servers %}
 	          {% for servidor in servers %}
 	           <th>
-	               <a href="/admin/seg_mngr/server/{{servidor.id}}/" target="_blank" style="color:#000">
+	               <a href="/admin/seg_mngr/server/{{servidor.id}}/" 
+	               target="_blank" style="color:#000">
 	                   <span class="glyphicon glyphicon-wrench"></span>
 	               </a>
-                   <a href="/server_tasks/{{servidor.id}}/">Servidor {{servidor.name}}</a>
+                   <a href="/server_tasks/{{servidor.id}}/">
+                   Servidor {{servidor.name}}
+                   </a>
 	           </th>
-	          {% endfor %}       
-          {% endif %}
+	          {% endfor %}
       </tr>
+ 
       <tr class="warning small">
           <td style="text-align:right;">Ips del Servidor</td>
-          {% if servers %}
           {% for servidor in servers %}
           <td>{% for ip in servidor.getIp %}
            <div>
@@ -36,12 +38,11 @@
           </div>
           {% endfor %}
            </td>
-           {% endfor %}       
-          {% endif %}
+           {% endfor %}
       </tr>
+
       <tr class="warning small">
           <td style="text-align:right;">Sistema operativo del Servidor</td>
-          {% if servers %}
           {% for servidor in servers %}
          <td>
          <div>
@@ -49,23 +50,21 @@
           </div>
            </td>
            {% endfor %}       
-          {% endif %}
       </tr> 
+
       <tr class="warning small">
           <td style="text-align:right;">Ubicación del Servidor</td>
-          {% if servers %}
           {% for servidor in servers %}
         <td>
         <div>
           {{servidor.location}}
           </div>
            </td>
-           {% endfor %}       
-          {% endif %}
+           {% endfor %}
       </tr> 
+
       <tr class="warning small">
           <td style="text-align:right;">Nivel de exposición del Servidor</td>
-          {% if servers %}
           {% for servidor in servers %}
           <td>
         {% if servidor.nivel_exposicion == PUBLICO %}
@@ -73,23 +72,21 @@
           <div>
           Público
           </div>
-          {% elif servidor.nivel_exposicion == NAT  %}
-          <div>
-          NAT
-          </div>
-          {% else %}
-          <div>
-          LAN
-          </div>
+               {% elif servidor.nivel_exposicion == NAT  %}
+                <div>
+                 NAT
+                </div>
+                 {% else %}
+                  <div>
+                  LAN
+                 </div>
           {% endif %}
            </td>
-           {% endfor %}       
-          {% endif %}
-          
-      </tr>           
+           {% endfor %}
+     </tr>
+
       </thead>
       <tbody>
-        {% if matriz %}
         {% for fila in matriz %}
 		{% ifchanged %}
         <tr class="info">
@@ -97,10 +94,12 @@
                 Grupo de tareas: <strong>{{fila.0.task_group}}</strong>
             </td>
         </tr>
+
         {% endifchanged %}
         <tr>
           <td>
-            <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
+            <a href="/admin/seg_mngr/task/{{fila.0.id}}/" target="_blank" 
+            style="color:#000"><span class="glyphicon glyphicon-wrench"></span></a>
             {{fila.0.name}}
           </td>
           {% autoescape off %}
@@ -110,17 +109,28 @@
 	          {% if server_task.state == PENDIENTE  %}
 		          <td><span class="label label-danger">Pendiente</span> 
 			          {% if server_task.comments != '' %}
-				          <span class="comentario glyphicon glyphicon-list"></span>
-				          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+				          <span class="comentario glyphicon glyphicon-list">
+				          </span>
+				          <div style="display:none; margin-top: 0.6em;" 
+				          class="comentario panel panel-default">
+				          <div class="panel-body">
+				          {{server_task.get_comentario_as_forhtml}}
+				          </div></div> 
 			          {% endif %}
 		          </td>        
 	          {% endif%}
-
+	          
 	          {% if server_task.state == NO_APLICA  %}
 		          <td><span class="label label-default">No aplica</span>
 			          {% if server_task.comments != '' %}
-				          <span class="comentario glyphicon glyphicon-list"></span>
-                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+				          <span class="comentario glyphicon glyphicon-list">
+				          </span>
+                          <div style="display:none; margin-top: 0.6em;" 
+                          class="comentario panel panel-default">
+                          <div class="panel-body">
+                          {{server_task.get_comentario_as_forhtml}}
+                          </div>
+                          </div> 
 			          {% endif %}
 		          </td>
 	          {% endif %}              
@@ -128,8 +138,14 @@
 	          {% if server_task.state == EN_CURSO  %}
 		          <td><span class="label label-primary">En curso</span>
 			          {% if server_task.comments != '' %}
-				          <span class="comentario glyphicon glyphicon-list"></span>
-                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+				          <span class="comentario glyphicon glyphicon-list">
+				          </span>
+                          <div style="display:none; margin-top: 0.6em;" 
+                          class="comentario panel panel-default">
+                          <div class="panel-body">
+                          {{server_task.get_comentario_as_forhtml}}
+                          </div>
+                          </div> 
 			          {% endif %}
 		          </td>
 	          {% endif %} 
@@ -137,8 +153,14 @@
 	          {% if server_task.state == FINALIZADA  %}
 		          <td><span class="label label-success">Finalizada</span>
 			          {% if server_task.comments != '' %}
-				          <span class="comentario glyphicon glyphicon-list"></span>
-                          <div style="display:none; margin-top: 0.6em;" class="comentario panel panel-default"><div class="panel-body">{{server_task.get_comentario_as_forhtml}}</div></div> 
+				          <span class="comentario glyphicon glyphicon-list">
+				          </span>
+                          <div style="display:none; margin-top: 0.6em;" 
+                          class="comentario panel panel-default">
+                          <div class="panel-body">
+                          {{server_task.get_comentario_as_forhtml}}
+                          </div>
+                          </div> 
 			          {% endif %}
 		          </td>
 	          {% endif %}
@@ -148,7 +170,6 @@
         <!-- <td><span class="label label-success">OK</span></td>-->
         </tr>
         {% endfor %} <!-- for matriz -->
-        {% endif %} <!-- if matriz -->
       </tbody>
     </table>
 
