@@ -1,9 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from seg_mngr.models import Server, Task, ServerTask, TaskGroup, \
-    OperatingSystem
-from seg_mngr.forms import ServerTaskForm, ServerSearchForm
-from django.views.generic.edit import UpdateView
+from seg_mngr.models import Server, Task, ServerTask, CrossCheck
+from seg_mngr.forms import ServerTaskForm, ServerSearchForm, CrossCheckForm
+from django.views.generic.edit import UpdateView, CreateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -46,11 +45,11 @@ def server_manager(request, id_operating_system):
 # Actualiza el estado de la tarea
 # template: seg_mngr/server_task.html
 @login_required(login_url='/accounts/login/')
-def server_tasks(request, id_servidor):
-    servidor = Server.objects.get(pk=id_servidor)
+def server_tasks(request, server_id):
+    servidor = Server.objects.get(pk=server_id)
     if request.method == 'POST':  # recuperar los datos de los submmit
         update_task = [k for k in request.POST.keys()
-            if k.startswith(id_servidor + '-')]
+            if k.startswith(server_id + '-')]
         task_id = update_task[0].split('-')[1]
         update_state = update_task[0].split('-')[2]
         tarea = Task.objects.get(pk=task_id)
@@ -64,10 +63,10 @@ def server_tasks(request, id_servidor):
                 state=update_state, date_update_state=datetime.datetime.now(),
                 autor_update_state=request.user)
             server_task.save()
-        return HttpResponseRedirect('/server_tasks/' + id_servidor)
+        return HttpResponseRedirect('/server_tasks/' + server_id)
 
     contexto = {
-        'servidor': Server.objects.get(pk=id_servidor),
+        'servidor': Server.objects.get(pk=server_id),
         'matriz': generator_matriz.genertator_matriz_server(servidor),
     }
     return render_to_response(
@@ -87,3 +86,26 @@ class ServerTaskUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('server_tasks', args=[self.object.server.pk])
+
+
+class CrossCheckCreateView(CreateView):
+    model = CrossCheck
+    template_name = 'seg_mngr/cross_check_form.html'
+    form_class = CrossCheckForm
+
+    def form_valid(self, form):
+        server = Server.objects.get(pk=self.kwargs['server_id'])
+        user = self.request.user
+        form.instance.server = server
+        form.instance.autor = user
+        return super(CrossCheckCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('server_tasks', kwargs={'server_id':
+            self.kwargs['server_id']})
+
+    def get_context_data(self, **kwargs):
+        context = super(CrossCheckCreateView, self).get_context_data(**kwargs)
+        server = Server.objects.get(pk=self.kwargs['server_id'])
+        context['server'] = server
+        return context

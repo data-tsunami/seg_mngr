@@ -5,7 +5,7 @@
 <h5>Sistema Operativo: {{servidor.operating_system}}</h5>
 <h5>Ubicación: {{servidor.location}}</h5>
 <br>
-
+<a href="/cross_check/create/{{servidor.id}}/" >Registrar control cruzado</a>
 <hr>
 
 <h3>Tareas del servidor</h3>
@@ -77,8 +77,10 @@
 						  
 						   </div>
 					   {% endif %}
+					   {% if fila.1.state != PENDIENTE %}
 					   <a href="/server_task_form/{{fila.1.id}}/" name="update-serverTask-{{servidor.id}}-{{fila.0.id}}"
 					   value="Modificar Comentario" class="btn btn-sm ">Editar</a>
+					   {% endif %}
 					</td>
 				{% else %}
 					<td>

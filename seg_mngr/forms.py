@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from seg_mngr.models import ServerTask, OperatingSystem
+from seg_mngr.models import ServerTask, OperatingSystem, CrossCheck
 
 
 # Formulario de modelo ServerTask
@@ -26,3 +26,10 @@ class ServerSearchForm(forms.Form):
                    OperatingSystem.objects.all()]
         CHOICES.extend(choices)
         self.fields['operating_system'].choices = CHOICES
+
+
+class CrossCheckForm(forms.ModelForm):
+
+    class Meta:
+        model = CrossCheck
+        fields = ('success',)

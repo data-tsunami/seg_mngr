@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//seg_mngr/admin.py=utf-8
 encoding//seg_mngr/forms.py=utf-8
 encoding//seg_mngr/migrations/0001_initial.py=utf-8
 encoding//seg_mngr/migrations/0002_auto__del_field_server_address_ip__add_field_configip_server.py=utf-8
