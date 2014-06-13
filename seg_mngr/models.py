@@ -120,3 +120,17 @@ class ServerTask(models.Model):
     def __unicode__(self):
         return u"Servidor {0} Tarea {1}".format(self.server.name,
             self.task.name)
+
+
+class CrossCheck(models.Model):
+    """
+    Control cruzado sobre servidor
+    """
+    server = models.ForeignKey(Server)
+    autor = models.ForeignKey(User)
+    check_date = models.DateTimeField(auto_now=True, auto_now_add=True)
+    success = models.BooleanField(default=False, verbose_name="Es exitoso")
+
+    def __unicode__(self):
+        return u"Control cruzado sobre servidor {0} realizado por {1}".format(
+            self.server, self.autor.username)
