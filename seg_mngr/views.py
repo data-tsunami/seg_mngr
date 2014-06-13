@@ -78,17 +78,18 @@ def server_tasks(request, server_id):
 
 @login_required(login_url='/accounts/login/')
 def report_tasks(request):
-    tabla_task_state = ServerTask.objects.values("state").annotate(Count("task"))
-    print tabla_task_state
+    tabla_task_state = ServerTask.objects.values("state").annotate(
+        cant_state=Count("state"))
+
     pie_chart = pygal.Pie()
     pie_chart.title = 'Estado de las tareas'
     for item in tabla_task_state:
-        print item
-#         pie_chart.add(item)
+        pie_chart.add(item['state'], item['cant_state'])
 
+    pie_chart.render_to_file('bar_chart.svg')
     contexto = {
         'tabla_task': tabla_task_state,
-        'chart': pie_chart.render(),
+        'chart': pie_chart,
     }
     return render_to_response(
         "seg_mngr/report_tasks.html", contexto,
