@@ -6,8 +6,10 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 import generator_matriz
 import datetime
+import pygal 
 
 
 def home(request):
@@ -71,6 +73,25 @@ def server_tasks(request, server_id):
     }
     return render_to_response(
         "seg_mngr/server_tasks.html", contexto,
+        context_instance=RequestContext(request))
+
+
+@login_required(login_url='/accounts/login/')
+def report_tasks(request):
+    tabla_task_state = ServerTask.objects.values("state").annotate(Count("task"))
+    print tabla_task_state
+    pie_chart = pygal.Pie()
+    pie_chart.title = 'Estado de las tareas'
+    for item in tabla_task_state:
+        print item
+#         pie_chart.add(item)
+
+    contexto = {
+        'tabla_task': tabla_task_state,
+        'chart': pie_chart.render(),
+    }
+    return render_to_response(
+        "seg_mngr/report_tasks.html", contexto,
         context_instance=RequestContext(request))
 
 

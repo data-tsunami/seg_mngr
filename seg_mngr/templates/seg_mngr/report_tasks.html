@@ -1,0 +1,15 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+<br>
+
+
+        <table class="table table-bordered">
+        {% for k,v in tabla_task %}
+        <tr><td>{{k.1}}</td><td>{{v.1}}</td></tr>
+
+        </table>
+        {% endfor %}
+
+
+{% endblock %}
