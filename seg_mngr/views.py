@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 import generator_matriz
 import datetime
-import pygal 
+import pygal
 
 
 def home(request):
@@ -83,13 +83,27 @@ def report_tasks(request):
 
     pie_chart = pygal.Pie()
     pie_chart.title = 'Estado de las tareas'
+    servers = Server.objects.all()
+    tasks = Task.objects.all()
+    total_taks = servers.count() * tasks.count()
+    server_tasks = ServerTask.objects.all()
+    total_pendiente = total_taks - server_tasks.count()
     for item in tabla_task_state:
-        pie_chart.add(item['state'], item['cant_state'])
+        if item['state'] == ServerTask.PENDIENTE:
+            item['cant_state'] += total_pendiente
+            pie_chart.add('Pendiente', item['cant_state'])
+        elif item['state'] == ServerTask.NO_APLICA:
+            pie_chart.add('No aplica', item['cant_state'])
+        elif item['state'] == ServerTask.EN_CURSO:
+            pie_chart.add('En curso', item['cant_state'])
+        elif item['state'] == ServerTask.FINALIZADA:
+            pie_chart.add('Finalizada', item['cant_state'])
 
     pie_chart.render_to_file('bar_chart.svg')
     contexto = {
         'tabla_task': tabla_task_state,
         'chart': pie_chart,
+        'total_tasks': total_taks,
     }
     return render_to_response(
         "seg_mngr/report_tasks.html", contexto,

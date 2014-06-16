@@ -3,14 +3,35 @@
 {% block content %}
 <br>
 
-
+<div class="col-md-6">
         <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        	<th></th><th>Cantidad de Tareas</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for item in tabla_task %}
-        <tr><td>{{item.state}}</td><td>{{item.cant_state}}</td></tr>
- {% endfor %}
+        <tr>
+        {% if item.state == PENDIENTE %}
+        <td>Pendiente</td>
+        {% elif item.state == NO_APLICA %}
+        <td>No aplica</td>
+        {% elif item.state == EN_CURSO %}
+        <td>En Curso</td>
+        {% elif item.state == FINALIZADA %}
+        <td>Finalizada</td>
+        {% endif %}
+        <td>{{item.cant_state}}</td></tr>
+ 		{% endfor %}
+ 		<tr class="danger">
+ 		<td>Total de tareas</td><td>{{total_tasks}}</td>
+ 		</tr>
+ 		</tbody>
         </table>
+         {{chart.render|safe}}
+</div>       
        
-       
- {{chart.render|safe}}
+
 
 {% endblock %}
