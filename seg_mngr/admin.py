@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from seg_mngr.models import ConfigIp, Server, Task, OperatingSystem, \
-    Location, TaskGroup, ServerTask
+    Location, TaskGroup, ServerTask, PeriodicTask
 
 
 # from django.db import models
@@ -41,3 +41,4 @@ admin.site.register(Location)
 admin.site.register(TaskGroup)
 admin.site.register(ServerTask)
 admin.site.register(ServerTaskComment, ServerTaskCommentAdmin)
+admin.site.register(PeriodicTask)

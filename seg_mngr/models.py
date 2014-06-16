@@ -148,8 +148,11 @@ class PeriodicTask(models.Model):
         (6, 'tareas a realizar cada 6 meses'),
         (9, 'tareas a realizar cada 9 meses'),
         (12, 'tareas a realizar cada 12 meses'),
-        )
+    )
     name = models.CharField(max_length=64)
     description = models.TextField(verbose_name='Descripción')
     frecuency = models.PositiveIntegerField(choices=FRECUENCY_CHOICES)
     server = models.ManyToManyField(Server)
+
+    def __unicode__(self):
+        return u"Tarea periódica: " + self.name
