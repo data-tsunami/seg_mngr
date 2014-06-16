@@ -134,3 +134,22 @@ class CrossCheck(models.Model):
     def __unicode__(self):
         return u"Control cruzado sobre servidor {0} realizado por {1}".format(
             self.server, self.autor.username)
+
+
+class PeriodicTask(models.Model):
+    """
+    Clase de tareas periodica
+    """
+    FRECUENCY_CHOICES = (
+        (1, 'tareas mensuales'),
+        (2, 'tareas a realizar cada 2 meses'),
+        (3, 'tareas a realizar cada 3 meses'),
+        (4, 'tareas a realizar cada 4 meses'),
+        (6, 'tareas a realizar cada 6 meses'),
+        (9, 'tareas a realizar cada 9 meses'),
+        (12, 'tareas a realizar cada 12 meses'),
+        )
+    name = models.CharField(max_length=64)
+    description = models.TextField(verbose_name='Descripción')
+    frecuency = models.PositiveIntegerField(choices=FRECUENCY_CHOICES)
+    server = models.ManyToManyField(Server)
