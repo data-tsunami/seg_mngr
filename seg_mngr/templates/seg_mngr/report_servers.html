@@ -1,0 +1,30 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+<br>
+
+<div class="col-md-6">
+        <table class="table table-bordered">
+        <thead>
+        <tr class="info">
+        	<th></th><th>Cantidad de Servidores</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>Finalizados</td><td>{{server_finalizados}}</td>
+        </tr>
+    	<tr>
+        <td>No finalizados</td><td>{{server_no_finalizados}}</td>
+        </tr>
+ 		<tr class="danger">
+ 		<td>Total de servidores</td><td>{{total_servers}}</td>
+ 		</tr>
+ 		</tbody>
+        </table>
+         {{chart.render|safe}}
+</div>       
+       
+
+
+{% endblock %}

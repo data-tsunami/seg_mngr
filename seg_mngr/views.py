@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.db.models import Q
 import generator_matriz
 import datetime
 import pygal
@@ -107,6 +108,33 @@ def report_tasks(request):
     }
     return render_to_response(
         "seg_mngr/report_tasks.html", contexto,
+        context_instance=RequestContext(request))
+
+
+@login_required(login_url='/accounts/login/')
+def report_servers(request):
+    server_finalizados = 0
+    tasks = Task.objects.all().count()
+    for server in Server.objects.all():
+        server_tasks = ServerTask.objects.filter(Q(server=server),
+            Q(state=ServerTask.FINALIZADA) | Q(state=ServerTask.NO_APLICA))
+        if tasks == server_tasks.count():
+            server_finalizados += 1
+    total_servers = Server.objects.all().count()
+    server_no_finalizados = total_servers - server_finalizados
+    pie_chart = pygal.Pie()
+    pie_chart.title = 'Estado de los servidores'
+    pie_chart.add('Finalizados', server_finalizados)
+    pie_chart.add('No finalizados', server_no_finalizados)
+    pie_chart.render_to_file('bar_chart_server.svg')
+    contexto = {
+        'server_finalizados': server_finalizados,
+        'server_no_finalizados': server_no_finalizados,
+        'chart': pie_chart,
+        'total_servers': total_servers,
+    }
+    return render_to_response(
+        "seg_mngr/report_servers.html", contexto,
         context_instance=RequestContext(request))
 
 
