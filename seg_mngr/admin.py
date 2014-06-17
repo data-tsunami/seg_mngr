@@ -21,6 +21,7 @@ class PeriodicTaskInLine(admin.TabularInline):
 class ServerAdmin(admin.ModelAdmin):
     inlines = [ConfigIpInLine, PeriodicTaskInLine]
     list_filter = ('operating_system__name', 'location__name',)
+    list_display = ('name', 'operating_system', 'location')
 
 
 class ServerTaskAdmin(admin.ModelAdmin):
@@ -51,9 +52,13 @@ class PeriodicTaskAdmin(admin.ModelAdmin):
     server_count.admin_order_field = 'server_count'
 
 
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'task_group')
+
+
 admin.site.register(ConfigIp)
 admin.site.register(Server, ServerAdmin)
-admin.site.register(Task)
+admin.site.register(Task, TaskAdmin)
 admin.site.register(OperatingSystem)
 admin.site.register(Location)
 admin.site.register(TaskGroup)
