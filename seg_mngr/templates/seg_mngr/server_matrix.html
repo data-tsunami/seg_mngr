@@ -32,58 +32,57 @@ enctype="multipart/form-data">
       <tr class="warning small">
           <td style="text-align:right;">Ips del Servidor</td>
           {% for servidor in servers %}
-          <td>{% for ip in servidor.getIp %}
-           <div>
-          {{ip.ip_address}}
-          </div>
+          <td>	{% for ip in servidor.getIp %}
+          	<div>
+          	{{ip.ip_address}}
+          	</div>
+          		{% endfor %}
+          </td>
           {% endfor %}
-           </td>
-           {% endfor %}
       </tr>
 
       <tr class="warning small">
-          <td style="text-align:right;">Sistema operativo del Servidor</td>
+      	<td style="text-align:right;">Sistema operativo del Servidor</td>
           {% for servidor in servers %}
-         <td>
-         <div>
+       	<td>
+        <div>
           {{servidor.operating_system}}
-          </div>
-           </td>
-           {% endfor %}       
+         </div>
+         </td>
+          {% endfor %}
       </tr> 
 
       <tr class="warning small">
-          <td style="text-align:right;">Ubicación del Servidor</td>
+      	<td style="text-align:right;">Ubicación del Servidor</td>
           {% for servidor in servers %}
         <td>
         <div>
           {{servidor.location}}
-          </div>
-           </td>
+        </div>
+        </td>
            {% endfor %}
       </tr> 
 
       <tr class="warning small">
-          <td style="text-align:right;">Nivel de exposición del Servidor</td>
+      	<td style="text-align:right;">Nivel de exposición del Servidor</td>
           {% for servidor in servers %}
-          <td>
-        {% if servidor.nivel_exposicion == PUBLICO %}
-          
-          <div>
-          Público
-          </div>
-               {% elif servidor.nivel_exposicion == NAT  %}
+         <td>
+        	{% if servidor.nivel_exposicion == PUBLICO %}
+         		<div>
+          			Público
+         		</div>
+            {% elif servidor.nivel_exposicion == NAT  %}
                 <div>
                  NAT
                 </div>
-                 {% else %}
-                  <div>
+            {% else %}
+                <div>
                   LAN
-                 </div>
-          {% endif %}
-           </td>
-           {% endfor %}
-     </tr>
+                </div>
+          	{% endif %}
+         </td>
+          {% endfor %}
+      </tr>
 
       </thead>
       <tbody>
