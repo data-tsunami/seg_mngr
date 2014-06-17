@@ -12,8 +12,14 @@ class ConfigIpInLine(admin.StackedInline):
     extra = 1
 
 
+class PeriodicTaskInLine(admin.TabularInline):
+    model = PeriodicTask.server.through
+    extra = 1
+    verbose_name_plural = "Periodic Tasks"
+
+
 class ServerAdmin(admin.ModelAdmin):
-    inlines = [ConfigIpInLine, ]
+    inlines = [ConfigIpInLine, PeriodicTaskInLine]
     list_filter = ('operating_system__name', 'location__name',)
 
 
