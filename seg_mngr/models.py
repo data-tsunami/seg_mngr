@@ -155,7 +155,7 @@ class PeriodicTask(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(verbose_name='Descripción')
     frecuency = models.PositiveIntegerField(choices=FRECUENCY_CHOICES)
-    server = models.ManyToManyField(Server)
+    server = models.ManyToManyField(Server, blank=True)
 
     def __unicode__(self):
         return u"Tarea periódica: " + self.name
