@@ -11,18 +11,18 @@
         </tr>
         </thead>
         <tbody>
-        {% for item in tabla_task %}
+        {% for k,v in tabla_task.items %}
         <tr>
-        {% if item.state == PENDIENTE %}
+        {% if k == PENDIENTE %}
         <td>Pendiente</td>
-        {% elif item.state == NO_APLICA %}
+        {% elif k == NO_APLICA %}
         <td>No aplica</td>
-        {% elif item.state == EN_CURSO %}
+        {% elif k == EN_CURSO %}
         <td>En Curso</td>
-        {% elif item.state == FINALIZADA %}
+        {% elif k == FINALIZADA %}
         <td>Finalizada</td>
         {% endif %}
-        <td>{{item.cant_state}}</td></tr>
+        <td>{{v}}</td></tr>
  		{% endfor %}
  		<tr class="danger">
  		<td>Total de tareas</td><td>{{total_tasks}}</td>

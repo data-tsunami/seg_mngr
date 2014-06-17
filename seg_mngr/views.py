@@ -81,7 +81,8 @@ def server_tasks(request, server_id):
 def report_tasks(request):
     tabla_task_state = ServerTask.objects.values("state").annotate(
         cant_state=Count("state"))
-
+    tabla_dic_state = {ServerTask.PENDIENTE: 0, ServerTask.EN_CURSO: 0,
+                       ServerTask.NO_APLICA: 0, ServerTask.FINALIZADA: 0}
     pie_chart = pygal.Pie()
     pie_chart.title = 'Estado de las tareas'
     servers = Server.objects.all()
@@ -92,17 +93,20 @@ def report_tasks(request):
     for item in tabla_task_state:
         if item['state'] == ServerTask.PENDIENTE:
             item['cant_state'] += total_pendiente
+            tabla_dic_state[ServerTask.PENDIENTE] = item['cant_state']
             pie_chart.add('Pendiente', item['cant_state'])
         elif item['state'] == ServerTask.NO_APLICA:
+            tabla_dic_state[ServerTask.NO_APLICA] = item['cant_state']
             pie_chart.add('No aplica', item['cant_state'])
         elif item['state'] == ServerTask.EN_CURSO:
+            tabla_dic_state[ServerTask.EN_CURSO] = item['cant_state']
             pie_chart.add('En curso', item['cant_state'])
         elif item['state'] == ServerTask.FINALIZADA:
+            tabla_dic_state[ServerTask.FINALIZADA] = item['cant_state']
             pie_chart.add('Finalizada', item['cant_state'])
-
     pie_chart.render_to_file('bar_chart.svg')
     contexto = {
-        'tabla_task': tabla_task_state,
+        'tabla_task': tabla_dic_state,
         'chart': pie_chart,
         'total_tasks': total_taks,
     }

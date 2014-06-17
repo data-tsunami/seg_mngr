@@ -73,7 +73,7 @@ class Server(models.Model):
 
     def getIp(self):
         return ConfigIp.objects.filter(server=self)
-    
+
     def get_cross_check(self):
         return CrossCheck.objects.filter(server=self).order_by('check_date')
 
