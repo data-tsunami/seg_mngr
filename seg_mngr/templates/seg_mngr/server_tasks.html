@@ -5,7 +5,8 @@
 <h5>Sistema Operativo: {{servidor.operating_system}}</h5>
 <h5>Ubicación: {{servidor.location}}</h5>
 <br>
-<a href="/cross_check/create/{{servidor.id}}/" >Registrar control cruzado</a>
+
+
 <hr>
 
 <h3>Tareas del servidor</h3>
@@ -98,6 +99,41 @@
 		</form>
 	</tbody>
 </table>
+
+<hr>
+
+<h3>Control cruzado</h3>
+<a href="/cross_check/create/{{servidor.id}}/" >Registrar control cruzado</a>
+
+{% if servidor.get_cross_check %}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<td>Fecha</td>
+			<td>Autor</td>
+			<td>Es exitoso</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in servidor.get_cross_check %}
+		<tr>
+			<td>{{item.check_date|date:"d/m/Y h:m:s"}}</td>
+			<td>{{item.autor}}</td>
+			<td>
+			{% if item.success == True %}
+			<span class="glyphicon glyphicon-ok"></span>
+			{% else %}
+			<span class="glyphicon glyphicon-remove"></span>
+			{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>No hay controles cruzados</p>
+{% endif %}
+
 <a class="btn btn-primary"  href="/server_manager/0">Volver</a>
 
 
