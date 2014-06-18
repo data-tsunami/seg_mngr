@@ -32,4 +32,4 @@ class CrossCheckForm(forms.ModelForm):
 
     class Meta:
         model = CrossCheck
-        fields = ('success',)
+        fields = ('success', 'task')
