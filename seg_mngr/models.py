@@ -133,6 +133,7 @@ class CrossCheck(models.Model):
     autor = models.ForeignKey(User)
     check_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     success = models.BooleanField(default=False, verbose_name="Es exitoso")
+    task = models.ManyToManyField(Task)
 
     def __unicode__(self):
         return u"Control cruzado sobre servidor {0} realizado por {1}".format(
