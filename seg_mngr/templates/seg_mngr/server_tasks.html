@@ -17,6 +17,7 @@
 		<tr>
             <th>Tareas</th>
             <th width="1%">Estado</th>
+            <th>Control Cruzado</th>
             <th>Comentarios</th>
             <th colspan="4" width="1%">&nbsp;</th>
         </tr>
@@ -28,7 +29,7 @@
         {% for fila in matriz %}
         {% ifchanged %}
         <tr>
-	        <td colspan=7 class="info">
+	        <td colspan=8 class="info">
 	            Grupo de tareas: <strong>{{fila.0.task_group}}</strong>
 	        </td>
         </tr>
@@ -69,6 +70,15 @@
                           </div>
                           </td>
 	          	{% endif %}
+	          		{% if fila.2.success == True or fila.2.success == False %}
+	          	    <td>
+	          	    {{fila.2.success}}
+	          	    </td>
+	          	    {% else %}
+	          	    <td>
+	          	    {{fila.2}}
+	          	    </td>
+	          	    {% endif %}
 				{% if fila.1.id != 0  %}
 					<td>
 					   {% if fila.1.tiene_comentario %}

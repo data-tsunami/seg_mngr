@@ -4,7 +4,7 @@ Created on 28/05/2014
 @author: federico
 '''
 import markdown
-from seg_mngr.models import ServerTask, Task, Server
+from seg_mngr.models import ServerTask, Task, Server, CrossCheck
 
 
 # def generator_matriz():
@@ -85,6 +85,11 @@ def genertator_matriz_server(servidor):
             fila.append(server_task)
         except ServerTask.DoesNotExist:
             fila.append(server_task_vacio)
+        cross_check = CrossCheck.objects.get_server_task(servidor, tarea)
+        if len(cross_check) > 0:
+            fila.append(cross_check[0])
+        else:
+            fila.append("no hay controles cruzado")
 
         matriz.append(fila)
     return matriz

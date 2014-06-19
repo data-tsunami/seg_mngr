@@ -125,6 +125,15 @@ class ServerTask(models.Model):
             self.task.name)
 
 
+class CrossCheckManager(models.Manager):
+    """
+    Manager CrossCheck model
+    """
+    def get_server_task(self, server_id, task_id):
+        return self.filter(server=server_id, task=task_id).order_by(
+            '-check_date')
+
+
 class CrossCheck(models.Model):
     """
     Control cruzado sobre servidor
@@ -134,6 +143,8 @@ class CrossCheck(models.Model):
     check_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     success = models.BooleanField(default=False, verbose_name="Es exitoso")
     task = models.ManyToManyField(Task)
+
+    objects = CrossCheckManager()
 
     def __unicode__(self):
         return u"Control cruzado sobre servidor {0} realizado por {1}".format(
