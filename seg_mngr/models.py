@@ -64,6 +64,9 @@ class Server(models.Model):
     name = models.CharField(max_length=64)
     operating_system = models.ForeignKey(OperatingSystem)
     location = models.ForeignKey(Location)
+    # FIXME: ya que apunta a muchas tasks, el atributo `task` debería
+    # estar en plural
+    # -- hgdeoro @ 2014-06-20
     task = models.ManyToManyField(Task, through='ServerTask', blank=True)
     nivel_exposicion = models.IntegerField(max_length=2, choices=NIVEL_CHOICES,
                                            default=LAN)
@@ -71,9 +74,16 @@ class Server(models.Model):
     def __unicode__(self):
         return self.name
 
+    # FIXME: usar nombre pythonesco, por ejemplo, `get_ip()`
+    # -- hgdeoro @ 2014-06-20
+
+    # FIXME: el metodo devuelve muchas instancias, deberia estar en plural.
+    # -- hgdeoro @ 2014-06-20
     def getIp(self):
         return ConfigIp.objects.filter(server=self)
 
+    # FIXME: el metodo devuelve muchas instancias, deberia estar en plural.
+    # -- hgdeoro @ 2014-06-20
     def get_cross_check(self):
         return CrossCheck.objects.filter(server=self).order_by('check_date')
 
@@ -82,6 +92,8 @@ class ConfigIp(models.Model):
     """
     Una configuracion Ip del servidor
     """
+    # FIXME: usar field específico IPAddressField
+    # -- hgdeoro @ 2014-06-20
     ip_address = models.CharField(max_length=64)
     server = models.ForeignKey(Server)
 
@@ -129,6 +141,16 @@ class CrossCheckManager(models.Manager):
     """
     Manager CrossCheck model
     """
+    # FIXME: renombrar. El nombre `get_server_task()` hace pensar
+    # que el metodo devolverá 1 instancia de ServerTask, y este método
+    # está orientado a devolver la última instancia de CrossCheck
+    # para un servidor/tarea.
+    # -- hgdeoro @ 2014-06-20
+
+    # FIXME: ya que lo que se busca es devolver la última instancia de
+    # CrossCheck para un servidor/tarea, sería mejor que este método
+    # devolviera eso. O sea, la última instancia, o None si no existe.
+    # -- hgdeoro @ 2014-06-20
     def get_server_task(self, server_id, task_id):
         return self.filter(server=server_id, task=task_id).order_by(
             '-check_date')
@@ -142,6 +164,9 @@ class CrossCheck(models.Model):
     autor = models.ForeignKey(User)
     check_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     success = models.BooleanField(default=False, verbose_name="Es exitoso")
+    # FIXME: ya que apunta a muchas tasks, el atributo `task` debería
+    # estar en plural
+    # -- hgdeoro @ 2014-06-20
     task = models.ManyToManyField(Task)
 
     objects = CrossCheckManager()
