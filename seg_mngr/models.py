@@ -178,7 +178,7 @@ class CrossCheckTask(models.Model):
     cross_check = models.ForeignKey(CrossCheck)
     task = models.ForeignKey(Task)
     success = models.BooleanField(default=False, verbose_name="Es exitoso")
-    
+
     def __unicode_(self):
         return u"Control cruzado {0} de Tarea {1}".format(
             self.cross_check, self.task)

@@ -85,9 +85,10 @@ def genertator_matriz_server(servidor):
             fila.append(server_task)
         except ServerTask.DoesNotExist:
             fila.append(server_task_vacio)
-        cross_check = CrossCheck.objects.get_server_task(servidor, tarea)
-        if len(cross_check) > 0:
-            fila.append(cross_check[0])
+        cross_check = CrossCheck.objects.get_cross_check_last(servidor, tarea)
+        print cross_check
+        if cross_check:
+            fila.append(cross_check)
         else:
             fila.append("no hay controles cruzado")
 

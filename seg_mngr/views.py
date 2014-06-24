@@ -1,7 +1,8 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from seg_mngr.models import Server, Task, ServerTask, CrossCheck
-from seg_mngr.forms import ServerTaskForm, ServerSearchForm, CrossCheckForm
+from seg_mngr.forms import ServerTaskForm, ServerSearchForm, CrossCheckForm, \
+    CrossCheckTaskSelectionForm
 from django.views.generic.edit import UpdateView, CreateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -139,6 +140,34 @@ def report_servers(request):
     }
     return render_to_response(
         "seg_mngr/report_servers.html", contexto,
+        context_instance=RequestContext(request))
+
+
+def cross_check(request, server_id):
+    if request.method == 'POST':
+        form = CrossCheckTaskSelectionForm(request.POST)
+        if form.is_valid():
+            tasks = form.cleaned_data.get('tasks')
+            request.session['tasks'] = tasks
+            return HttpResponseRedirect('/cross_check_tasks/' + server_id)
+    else:
+        form = CrossCheckTaskSelectionForm()
+
+    contexto = {
+        'form': form,
+        'server': Server.objects.get(pk=server_id)
+    }
+    return render_to_response(
+        "seg_mngr/cross_check.html", contexto,
+        context_instance=RequestContext(request))
+
+
+def cross_check_tasks(request, server_id):
+    contexto = {
+        'server': Server.objects.get(pk=server_id)
+    }
+    return render_to_response(
+        "seg_mngr/cross_check_tasks.html", contexto,
         context_instance=RequestContext(request))
 
 
