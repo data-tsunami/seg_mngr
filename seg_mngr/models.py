@@ -141,19 +141,17 @@ class CrossCheckManager(models.Manager):
     """
     Manager CrossCheck model
     """
-    # FIXME: renombrar. El nombre `get_server_task()` hace pensar
-    # que el metodo devolverá 1 instancia de ServerTask, y este método
-    # está orientado a devolver la última instancia de CrossCheck
-    # para un servidor/tarea.
-    # -- hgdeoro @ 2014-06-20
 
     # FIXME: ya que lo que se busca es devolver la última instancia de
     # CrossCheck para un servidor/tarea, sería mejor que este método
     # devolviera eso. O sea, la última instancia, o None si no existe.
     # -- hgdeoro @ 2014-06-20
-    def get_server_task(self, server_id, task_id):
-        return self.filter(server=server_id, task=task_id).order_by(
-            '-check_date')
+    def get_cross_check_last(self, server_id, task_id):
+        try:
+            return self.filter(server=server_id, tasks=task_id).order_by(
+                '-check_date')[0]
+        except IndexError:
+            return None
 
 
 class CrossCheck(models.Model):
@@ -164,16 +162,26 @@ class CrossCheck(models.Model):
     autor = models.ForeignKey(User)
     check_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     success = models.BooleanField(default=False, verbose_name="Es exitoso")
-    # FIXME: ya que apunta a muchas tasks, el atributo `task` debería
-    # estar en plural
-    # -- hgdeoro @ 2014-06-20
-    task = models.ManyToManyField(Task)
+    tasks = models.ManyToManyField(Task, through="CrossCheckTask")
 
     objects = CrossCheckManager()
 
     def __unicode__(self):
         return u"Control cruzado sobre servidor {0} realizado por {1}".format(
             self.server, self.autor.username)
+
+
+class CrossCheckTask(models.Model):
+    """
+    Clase CrossCheck por Tarea
+    """
+    cross_check = models.ForeignKey(CrossCheck)
+    task = models.ForeignKey(Task)
+    success = models.BooleanField(default=False, verbose_name="Es exitoso")
+    
+    def __unicode_(self):
+        return u"Control cruzado {0} de Tarea {1}".format(
+            self.cross_check, self.task)
 
 
 class PeriodicTask(models.Model):
