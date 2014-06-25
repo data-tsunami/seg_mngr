@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from seg_mngr.models import Server, Task, ServerTask, CrossCheck
+from seg_mngr.models import Server, Task, ServerTask, CrossCheck, \
+    CrossCheckTask
 from seg_mngr.forms import ServerTaskForm, ServerSearchForm, CrossCheckForm, \
     CrossCheckTaskSelectionForm
 from django.views.generic.edit import UpdateView, CreateView
@@ -163,8 +164,41 @@ def cross_check(request, server_id):
 
 
 def cross_check_tasks(request, server_id):
+    cross_check = CrossCheck()
+    user = request.user
+    server = Server.objects.get(pk=server_id)
+    cross_check.autor = user
+    cross_check.server = server
+
+    if request.method == 'POST':
+        success_tasks = []
+        cross_check.save()
+        update_task = [k for k in request.POST.keys()
+            if k.startswith('task-')]
+        for task_id in update_task:
+            cross_check_task = CrossCheckTask()
+            cross_check_task.cross_check = cross_check
+            task = Task.objects.get(pk=task_id.split('-')[1])
+            cross_check_task.task = task
+            success_tasks.append(int(task_id.split('-')[2]))
+            cross_check_task.success = int(task_id.split('-')[2])
+            cross_check_task.save()
+        sum_success = 0
+        for sum_task in success_tasks:
+            sum_success += sum_task
+        if sum_success == len(success_tasks):
+            cross_check.success = True
+            cross_check.save()
+        return HttpResponseRedirect('/server_tasks/' + server_id)
+
+    tasks_id = request.session['tasks']
+    tasks = []
+    for t_id in tasks_id:
+        task = Task.objects.get(pk=t_id)
+        tasks.append(task)
     contexto = {
-        'server': Server.objects.get(pk=server_id)
+        'server': Server.objects.get(pk=server_id),
+        'tasks': tasks
     }
     return render_to_response(
         "seg_mngr/cross_check_tasks.html", contexto,

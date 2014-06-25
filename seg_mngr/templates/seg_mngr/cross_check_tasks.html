@@ -8,13 +8,32 @@
 <form action='.' method='post' enctype="multipart/form-data">
         {% csrf_token %}
         <table class="table table-bordered">
-        <tr><td>Server  </td><td><strong>{{server.name}}</string></td></tr>
+        	<tr>
+        		<td>Server  </td><td><strong>{{server.name}}</string></td>
+        	</tr>
         {{form.as_table}}
         </table>
         
+        <table class="table table-bordered">
+        {% for fila in tasks %}
+        	<tr>
+        		<td>{{fila.name}}</td>
+        		<td>
+        			<div class="btn-group" data-toggle="buttons">
+  						<label class="btn btn-primary">
+    					<input type="radio" name="task-{{fila.id}}-1" id="option1"> Exitoso
+  						</label>
+  						<label class="btn btn-primary">
+    					<input type="radio" name="task-{{fila.id}}-0" id="option2"> No exitoso
+  						</label>  						
+						</div>
+        		</td>        		
+        	</tr>
+        {% endfor %}
+        </table>
         
         
-		<a class="btn btn-primary"  href="/server_tasks/{{server.id}}">Volver</a>
+		<a class="btn btn-primary"  href="/cross_check/{{server.id}}">Volver</a>
 		
 		<input type="submit" value="Guardar" class="btn btn-primary pull-right" />
 </form> 
