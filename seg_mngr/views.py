@@ -198,7 +198,8 @@ def cross_check_tasks(request, server_id):
         tasks.append(task)
     contexto = {
         'server': Server.objects.get(pk=server_id),
-        'tasks': tasks
+        'tasks': tasks,
+        'tasks_len': len(tasks)
     }
     return render_to_response(
         "seg_mngr/cross_check_tasks.html", contexto,
