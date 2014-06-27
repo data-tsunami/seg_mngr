@@ -144,6 +144,7 @@ def report_servers(request):
         context_instance=RequestContext(request))
 
 
+@login_required(login_url='/accounts/login/')
 def cross_check(request, server_id):
     if request.method == 'POST':
         form = CrossCheckTaskSelectionForm(request.POST)
@@ -163,6 +164,7 @@ def cross_check(request, server_id):
         context_instance=RequestContext(request))
 
 
+@login_required(login_url='/accounts/login/')
 def cross_check_tasks(request, server_id):
     cross_check = CrossCheck()
     user = request.user

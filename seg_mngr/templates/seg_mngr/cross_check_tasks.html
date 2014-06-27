@@ -9,29 +9,46 @@
         {% csrf_token %}
         <table class="table table-bordered">
         	<tr>
-        		<td>Server  </td><td><strong>{{server.name}}</string></td>
+        		<td>Server  </td><td><strong>{{server.name}}</string></td>        		
+        	</tr>
+        	<tr>
+        		<td>Registrado por</td><td><strong>{{user.first_name}} {{user.last_name}}</strong></td>
         	</tr>
         {{form.as_table}}
         </table>
         
         <table class="table table-bordered">
-        {% for fila in tasks %}
-        	<tr>
-        		<td>{{fila.name}}</td>
-        		<td>
-        			<div class="btn-group" data-toggle="buttons">
-  						<label class="btn btn-primary">
-    					<input type="radio" name="task-{{fila.id}}-1" 
-    					id="option1" class="resultado_check_tarea"> Exitoso
-  						</label>
-  						<label class="btn btn-primary">
-    					<input type="radio" name="task-{{fila.id}}-0" 
-    					id="option2" class="resultado_check_tarea"> No exitoso
-  						</label>  						
-						</div>
-        		</td>        		
-        	</tr>
-        {% endfor %}
+        	<thead>
+        		<th>Tareas</th>
+        		<th>Seleccione el boton segun corresponda</th>
+        	</thead>
+        	<tbody>
+        		{% for fila in tasks %}
+        			{% ifchanged %}
+        				<tr>
+	        				<td colspan=2 class="info">
+	            				Grupo de tareas: <strong>
+	            				{{fila.task_group}}</strong>
+	        				</td>
+        				</tr>
+        			{% endifchanged %}
+        			<tr>
+        				<td>{{fila.name}}</td>
+        				<td>
+        					<div class="btn-group" data-toggle="buttons">
+  								<label class="btn btn-primary">
+    							<input type="radio" name="task-{{fila.id}}-1" 
+    							id="option1" class="resultado_check_tarea"> Exitoso
+  								</label>
+  								<label class="btn btn-primary">
+    							<input type="radio" name="task-{{fila.id}}-0" 
+    							id="option2" class="resultado_check_tarea"> No exitoso
+  								</label>  						
+							</div>
+        				</td>        		
+        			</tr>
+        		{% endfor %}
+        	</tbody>
         </table>
         <p id='errores' style="color:#FF0000;font-weight: bold;"></p>
         
