@@ -147,13 +147,13 @@ def report_servers(request):
 @login_required(login_url='/accounts/login/')
 def cross_check(request, server_id):
     if request.method == 'POST':
-        form = CrossCheckTaskSelectionForm(request.POST)
+        form = CrossCheckTaskSelectionForm(request.POST, server=server_id)
         if form.is_valid():
             tasks = form.cleaned_data.get('tasks')
             request.session['tasks'] = tasks
             return HttpResponseRedirect('/cross_check_tasks/' + server_id)
     else:
-        form = CrossCheckTaskSelectionForm()
+        form = CrossCheckTaskSelectionForm(server=server_id)
 
     contexto = {
         'form': form,

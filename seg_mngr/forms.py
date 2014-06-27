@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from seg_mngr.models import ServerTask, OperatingSystem, CrossCheck, Task
+from django.db.models import Q
+from seg_mngr.models import ServerTask, OperatingSystem, Server, Task
 
 
 # Formulario de modelo ServerTask
@@ -34,7 +35,18 @@ class CrossCheckTaskSelectionForm(forms.Form):
         help_text="Seleccione 1 ó mas tareas")
 
     def __init__(self, *args, **kwargs):
+        self.server = kwargs.get('server', None)
+        if kwargs['server'] is not None:
+            del kwargs['server']
         super(CrossCheckTaskSelectionForm, self).__init__(*args, **kwargs)
+        servidor = Server.objects.get(pk=self.server)
+        tasks_dic = ServerTask.objects.values('task').filter(
+            Q(server=servidor.id), Q(state=ServerTask.FINALIZADA) |
+            Q(state=ServerTask.NO_APLICA))
+        tasks = []
+        for tarea in tasks_dic:
+            task = Task.objects.get(pk=tarea['task'])
+            tasks.append(task)
         choices = [(os.id, unicode(os)) for os in
-                   Task.objects.all()]
+                   tasks]
         self.fields['tasks'].choices = choices
