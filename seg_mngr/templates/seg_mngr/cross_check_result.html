@@ -1,0 +1,43 @@
+{% extends "seg_mngr/base.html" %}
+{% block title %} Server Manager{% endblock %}
+{% block content %}
+<div class="col-md-6">
+<h4>Resultado de control cruzado</h4>
+
+
+<form id="form" action='.' method='post' enctype="multipart/form-data">
+        {% csrf_token %}        
+        <table class="table table-bordered">
+        	<thead>
+        		<th>Tareas</th>
+        		<th>Resultado en este control cruzado</th>
+        	</thead>
+        	<tbody>
+        		{% for fila in result %}
+        			{% ifchanged %}
+        				<tr>
+	        				<td colspan=2 class="info">
+	            				Grupo de tareas: <strong>
+	            				{{fila.task.task_group}}</strong>
+	        				</td>
+        				</tr>
+        			{% endifchanged %}
+        			<tr>
+        				<td>{{fila.task}}</td>
+        				<td>
+	          				{% if fila.success == True %}
+	          	        		<span class="label label-success">Ok</span>
+                    		{% elif fila.success == False %}
+                        		<span class="label label-danger">Falló</span>
+	          	    		{% endif %}
+                		</td>
+        			</tr>
+        		{% endfor %}
+        	</tbody>
+        </table>        
+		<a class="btn btn-primary"  href="/server_tasks/{{server.id}}">Volver</a>
+		
+		
+</form> 
+</div>
+{% endblock %}

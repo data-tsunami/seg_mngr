@@ -208,6 +208,19 @@ def cross_check_tasks(request, server_id):
         context_instance=RequestContext(request))
 
 
+def cross_check_result(request, cross_check_task_id):
+    servidor = CrossCheck.objects.values('server').get(pk=cross_check_task_id)
+    server = Server.objects.get(pk=servidor['server'])
+    contexto = {
+        'result': CrossCheckTask.objects.filter(
+            cross_check=cross_check_task_id),
+        'server': server
+    }
+    return render_to_response(
+        "seg_mngr/cross_check_result.html", contexto,
+        context_instance=RequestContext(request))
+
+
 class ServerTaskUpdateView(UpdateView):
     model = ServerTask
     template_name = 'seg_mngr/server_task_form.html'

@@ -130,7 +130,7 @@
 	<tbody>
 		{% for item in servidor.get_cross_check %}
 		<tr>
-			<td>{{item.check_date|date:"d/m/Y h:m:s"}}</td>
+			<td><a href="/cross_check_result/{{item.id}}">{{item.check_date|date:"d/m/Y h:m:s"}}</a></td>
 			<td>{{item.autor}}</td>
 			<td>
 			{% if item.success == True %}
