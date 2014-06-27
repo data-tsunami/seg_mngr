@@ -131,7 +131,7 @@
 		{% for item in servidor.get_cross_check %}
 		<tr>
 			<td><a href="/cross_check_result/{{item.id}}">{{item.check_date|date:"d/m/Y h:m:s"}}</a></td>
-			<td>{{item.autor}}</td>
+			<td>{{item.autor.first_name}} {{item.autor.last_name}}({{item.autor}})</td>
 			<td>
 			{% if item.success == True %}
 			<span class="glyphicon glyphicon-ok"></span>
