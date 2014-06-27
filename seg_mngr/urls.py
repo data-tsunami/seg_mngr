@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.contrib import admin
-from seg_mngr.views import ServerTaskUpdateView, CrossCheckCreateView
+from seg_mngr.views import ServerTaskUpdateView
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -14,9 +14,6 @@ urlpatterns = patterns('',
         name='server_tasks'),
     url(r'server_task_form/(?P<pk>\d+)/$',
         login_required(ServerTaskUpdateView.as_view()),
-        name='server_task_form'),
-    url(r'cross_check/create/(?P<server_id>.*)/$',
-        login_required(CrossCheckCreateView.as_view()),
         name='server_task_form'),
     url(r'^report_tasks/$',
         'seg_mngr.views.report_tasks',

@@ -28,13 +28,6 @@ class ServerSearchForm(forms.Form):
         self.fields['operating_system'].choices = CHOICES
 
 
-class CrossCheckForm(forms.ModelForm):
-
-    class Meta:
-        model = CrossCheck
-        fields = ('success', 'tasks')
-
-
 class CrossCheckTaskSelectionForm(forms.Form):
 
     tasks = forms.MultipleChoiceField(label="Tareas", choices=(),

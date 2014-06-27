@@ -2,9 +2,9 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from seg_mngr.models import Server, Task, ServerTask, CrossCheck, \
     CrossCheckTask
-from seg_mngr.forms import ServerTaskForm, ServerSearchForm, CrossCheckForm, \
+from seg_mngr.forms import ServerTaskForm, ServerSearchForm, \
     CrossCheckTaskSelectionForm
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -220,26 +220,3 @@ class ServerTaskUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('server_tasks', args=[self.object.server.pk])
-
-
-class CrossCheckCreateView(CreateView):
-    model = CrossCheck
-    template_name = 'seg_mngr/cross_check_form.html'
-    form_class = CrossCheckForm
-
-    def form_valid(self, form):
-        server = Server.objects.get(pk=self.kwargs['server_id'])
-        user = self.request.user
-        form.instance.server = server
-        form.instance.autor = user
-        return super(CrossCheckCreateView, self).form_valid(form)
-
-    def get_success_url(self):
-        return reverse('server_tasks', kwargs={'server_id':
-            self.kwargs['server_id']})
-
-    def get_context_data(self, **kwargs):
-        context = super(CrossCheckCreateView, self).get_context_data(**kwargs)
-        server = Server.objects.get(pk=self.kwargs['server_id'])
-        context['server'] = server
-        return context
