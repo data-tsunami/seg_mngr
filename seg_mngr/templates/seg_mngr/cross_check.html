@@ -2,18 +2,37 @@
 {% block title %} Server Manager{% endblock %}
 {% block content %}
 <div class="col-md-6">
-<h4>Registro de control cruzado en el server</h4>
+<h4>Registro de control cruzado en el server <strong>{{server.name}}</strong></h4>
 
 
 <form action='.' method='post' enctype="multipart/form-data">
-        {% csrf_token %}
-        <table class="table table-bordered">
-        <tr><td>Servidor  </td><td><strong>{{server.name}}</string></td></tr>
-        {{form.as_table}}
+        {% csrf_token %}        
+         <table class="table table-bordered">
+        	<thead>
+        		<th>Tareas</th>        		
+        	</thead>
+        	<tbody>
+        		{% for fila in tasks %}
+        			{% ifchanged %}
+        				<tr>
+	        				<td  class="info">
+	            				Grupo de tareas: <strong>
+	            				{{fila.task_group}}</strong>
+	        				</td>
+        				</tr>
+        			{% endifchanged %}
+        			<tr>
+        				<td>
+        					<label >
+    							<input name="task-{{fila.id}}" type="checkbox"> 
+    							{{fila.name}}
+  							</label>
+        				</td>
+        				     		
+        			</tr>
+        		{% endfor %}
+        	</tbody>
         </table>
-        
-        
-        
 		<a class="btn btn-primary"  href="/server_tasks/{{server.id}}">Volver</a>
 		
 		<input type="submit" value="Siguiente" class="btn btn-primary pull-right" />

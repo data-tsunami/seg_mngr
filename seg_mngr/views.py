@@ -147,17 +147,27 @@ def report_servers(request):
 @login_required(login_url='/accounts/login/')
 def cross_check(request, server_id):
     if request.method == 'POST':
-        form = CrossCheckTaskSelectionForm(request.POST, server=server_id)
-        if form.is_valid():
-            tasks = form.cleaned_data.get('tasks')
-            request.session['tasks'] = tasks
-            return HttpResponseRedirect('/cross_check_tasks/' + server_id)
-    else:
-        form = CrossCheckTaskSelectionForm(server=server_id)
+        print request.POST.keys()
+        tasks_check_id = [k for k in request.POST.keys()
+            if k.startswith('task-')]
 
+        tasks_checks = []
+        for task_id in tasks_check_id:
+            tasks_checks.append(task_id.split('-')[1])
+
+        request.session['tasks'] = tasks_checks
+        return HttpResponseRedirect('/cross_check_tasks/' + server_id)
+
+    tasks_dic = ServerTask.objects.values('task').filter(
+        Q(server=server_id), Q(state=ServerTask.FINALIZADA) |
+        Q(state=ServerTask.NO_APLICA))
+    tasks = []
+    for tarea in tasks_dic:
+        task = Task.objects.get(pk=tarea['task'])
+        tasks.append(task)
     contexto = {
-        'form': form,
-        'server': Server.objects.get(pk=server_id)
+        'server': Server.objects.get(pk=server_id),
+        'tasks': tasks
     }
     return render_to_response(
         "seg_mngr/cross_check.html", contexto,
