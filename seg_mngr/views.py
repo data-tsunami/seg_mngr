@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.db.models import Q
+from operator import attrgetter
 import generator_matriz
 import datetime
 import pygal
@@ -147,7 +148,6 @@ def report_servers(request):
 @login_required(login_url='/accounts/login/')
 def cross_check(request, server_id):
     if request.method == 'POST':
-        print request.POST.keys()
         tasks_check_id = [k for k in request.POST.keys()
             if k.startswith('task-')]
 
@@ -165,6 +165,8 @@ def cross_check(request, server_id):
     for tarea in tasks_dic:
         task = Task.objects.get(pk=tarea['task'])
         tasks.append(task)
+    tasks.sort(cmp=None, key=attrgetter('task_group_id'))
+
     contexto = {
         'server': Server.objects.get(pk=server_id),
         'tasks': tasks
@@ -208,6 +210,8 @@ def cross_check_tasks(request, server_id):
     for t_id in tasks_id:
         task = Task.objects.get(pk=t_id)
         tasks.append(task)
+    tasks.sort(cmp=None, key=attrgetter('task_group_id'))
+
     contexto = {
         'server': Server.objects.get(pk=server_id),
         'tasks': tasks,
