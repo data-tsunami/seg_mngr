@@ -5,7 +5,8 @@
 <h4>Registro de control cruzado en el server</h4>
 
 
-<form id="form" action='.' method='post' enctype="multipart/form-data">
+<form id="form" action='.' method='post' enctype="multipart/form-data"
+	onsubmit="return validar_radio()" >
         {% csrf_token %}
         <table class="table table-bordered">
         	<tr>
@@ -52,27 +53,24 @@
         </table>
         <p id='errores' style="color:#FF0000;font-weight: bold;"></p>
         
-		<a class="btn btn-primary"  href="/cross_check/{{server.id}}">Volver</a>
+		<a class="btn btn-primary" href="/cross_check/{{server.id}}">Volver</a>
 		
-		<input id="radio_comprobar" value="Guardar" class="btn btn-primary pull-right" />
+		<input type="submit" value="Guardar" class="btn btn-primary pull-right" />
 </form> 
 </div>
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript">
- $(document).ready(function() {
-	 $("#radio_comprobar").click(function() {
+function validar_radio(){
 		 var resultado = $('.resultado_check_tarea').filter(":checked");		
 		 var tasks = {{tasks_len}}		 
 		 if (resultado.length == tasks) {  
-			 $("#form").submit();
-	        } else {  
-	            
+			 return true;
+	        } else {
 	            $("#errores").html("Debe seleccionar un boton por tarea");
+	           	return false;
 	        }  
-	    });  
-});
-
+}
 </script>
 {% endblock %}
